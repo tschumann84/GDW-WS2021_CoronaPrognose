@@ -16,4 +16,4 @@ Werner ist Außendienstmitarbeiter. Wie auch viele andere Berufstätige ist er d
 ## Weitere Dokumente
 ### Domänenmodell
 * [Domänenmodell Version 0.1](https://tschumann84.github.io/GDWWS2021GeraschSalamonSchumann/Domaenenmodell_Vers0.1.html)
-* [Domänenmodell Version 0.2](https://tschumann84.github.io/GDWWS2021GeraschSalamonSchumann/Domaenenmodell_Vers0.2.html)
+* [Domänenmodell Version 1.0](https://tschumann84.github.io/GDWWS2021GeraschSalamonSchumann/Domaenenmodell_Vers1.0.html)
