@@ -5,8 +5,8 @@ console.log("Benjamin Salamon");
 
 //  Initialisierung der Variablen und Ausgabe
 const maxSterne = 5;
-var aktuelleAnzahlBewertungen = 0;
-var bewertung;
+let aktuelleAnzahlBewertungen = 0;
+let bewertung;
 
 //Initialisieren des readLine
 const readline = require('readline');
