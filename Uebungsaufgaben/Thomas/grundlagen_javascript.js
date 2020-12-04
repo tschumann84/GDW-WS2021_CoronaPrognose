@@ -1,6 +1,6 @@
 // Diese Konstante wird für die Berechnung eines Kreisumfangs benötigt
 const PI = 3.144592653589793;
-
+const message = "Die Nachricht";
 /*
 * Nimmt die Variable message entgegen
 * und gibt diese auf der Konsole aus
@@ -90,13 +90,13 @@ const min = function(a, b, callback) {
 min(5, 5, log); // gibt aus: "die Werte sind gleich"
 
 // Einbinden des readline moduls
-const readline = require('readline');
+const readline = require(`readline`);
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-rl.question('Was ist der Radius des Kreises?', function(answer) {
-    console.log('Answer: ${answer}'); //Ausgabe der eingegebene answer
+rl.question("Was ist der Radius des Kreises?", function(answer) {
+    console.log(`Answer: ${answer}`); //Ausgabe der eingegebene answer
     rl.close();
 });
