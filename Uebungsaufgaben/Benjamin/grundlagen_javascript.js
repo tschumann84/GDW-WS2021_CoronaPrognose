@@ -17,8 +17,11 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// Freiwillig: Ausführen eines Menüs zum auswählen der Funktionen
+menu();
+
+
 // Aufgabe 3 Nutzer soll in der Kommandozeile bewerten können. Falsche Eingaben sollen abgefangen werden.
-//manuelleBewertung()
 function manuelleBewertung(){
 rl.question(`Welche Bewertung würden Sie der App geben? (0 - schlechteste Bewertung bis ${maxSterne} Sterne): `, (answer) => {
   answer = Number(answer)
@@ -38,9 +41,8 @@ rl.question(`Welche Bewertung würden Sie der App geben? (0 - schlechteste Bewer
 }
 
 //Aufgabe 4 Bewertung soll n-Mal berechnet werden. Jeder Berechnung wird eine neue zufällige Bewertung hinzugefügt.
-zufaelligeBewertung()
 function zufaelligeBewertung(){
-  rl.question('Wie oft soll eine zufällige Bewertung erzeugt werden? :',(answer) => {
+  rl.question('Wie oft soll eine zufällige Bewertung erzeugt werden?: ',(answer) => {
     answer = Number(answer)
     let randomNumber;
     for (i = 0; i<answer; i++){
@@ -58,4 +60,31 @@ function zufaelligeBewertung(){
 // Aufgabe 5 Berechnung der Bewertung in eine Funktion packen
 function berechnungDerBewertung (abgegebeneBewertung, aktuelleBewertung, aktuelleAnzahlBewertungen){
   return ((((aktuelleAnzahlBewertungen-1)* aktuelleBewertung) + abgegebeneBewertung)/aktuelleAnzahlBewertungen);
+}
+
+/*
+Aufgabenblatt 2
+ */
+function menu(){
+  rl.question(`\nMenü\nTippe 1: um Bewertung manuell abzugeben\nTippe 2: um Bewertung automatisch abzugeben\n\n`, (answer)=>{
+    answer = Number(answer);
+    switch(answer){
+        case 1:
+          manuelleBewertung();
+          break;
+        case 2:
+          zufaelligeBewertung();
+          break;
+      default:
+        console.log('\nEingabe nicht erkannt probieren Sie es noch einmal.')
+        menu();
+        break;
+      }
+  }
+)}
+
+// Aufgabenblatt 2 Übung 1 Speichern der Bewerungen in einem Array
+
+function newRatingInArray(){
+
 }
