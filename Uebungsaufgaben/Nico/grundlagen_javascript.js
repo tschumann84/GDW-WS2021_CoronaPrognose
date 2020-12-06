@@ -37,20 +37,28 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.question("Geben Sie ihren Benutzernamen an: ",(answer) =>{
-    let name = answer;
-    console.log(name);
-    rl.close();
-});
-do{
-rl.question("Geben Sie ihre Bewertung von 0 bis 5 Sternen an: ",function(answer){
-    if(answer <= Sterne || answer >= Sterne){
+function nachBenutzernameFragen() {
+    rl.question("Geben Sie ihren Benutzernamen an: ", (answer) => {
+        let name = answer;
+        console.log(name);
+        rl.close();
+    });
+}
+nachBenutzernameFragen();
+nachSterneFragen();
+
+function nachSterneFragen(){
+rl.question("Geben Sie ihre Bewertung von 0 bis 5 Sternen an: ",(answer) => {
+    console.log(typeof answer);
+    if(answer <= Sterne && answer >= 0){
         anzahlvonSternen++;
+        rl.close();
     }else{
-        console.log("Ihre Bewertung lag au?erhalb des Wertebereiches! Versuchen Sie es erneut!")
-    };
-    rl.close();
-});
-}while(answer <= Sterne || answer >= Sterne);
-console.log("Aktuelle Bewertung: " + aktuelleSterne + " von möglichen "+Sterne+" Sternen.");
-console.log("Bei dieser Anzahl von Bewertungen: " + anzahlvonSternen);
+        console.log(new Error("Ihre Bewertung lag au?erhalb des Wertebereiches! Versuchen Sie es erneut!"));
+        nachSterneFragen();
+    }
+})
+}
+
+//console.log("Aktuelle Bewertung: " + aktuelleSterne + " von möglichen "+Sterne+" Sternen.");
+//console.log("Bei dieser Anzahl von Bewertungen: " + anzahlvonSternen);
