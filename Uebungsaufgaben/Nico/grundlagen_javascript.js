@@ -37,7 +37,7 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.question("Geben Sie ihren Benutzernamen an: ",function(answer){
+rl.question("Geben Sie ihren Benutzernamen an: ",(answer) =>{
     let name = answer;
     console.log(name);
     rl.close();
