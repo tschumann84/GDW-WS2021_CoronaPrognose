@@ -11,6 +11,9 @@ let aktuelleAnzahlBewertungen = 0;
 let bewertung=0;
 let ratings = [];
 
+
+// Aufgabe 3 Nutzer soll in der Kommandozeile bewerten können. Falsche Eingaben sollen abgefangen werden.
+
 //Initialisieren des readLine
 const readline = require('readline');
 const rl = readline.createInterface({
@@ -18,18 +21,6 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-/*
-let ergebnis = Ratings("Hallo", 2, 3);
-
-console.log(ergebnis[0], ergebnis[1], ergebnis[2]);
-console.log(ergebnis2[0], ergebnis2[1], ergebnis2[2]);
-*/
-
-// Freiwillig: Ausführen eines Menüs zum auswählen der Funktionen
-menu();
-
-
-// Aufgabe 3 Nutzer soll in der Kommandozeile bewerten können. Falsche Eingaben sollen abgefangen werden.
 function manuelleBewertung(){
 rl.question(`Welche Bewertung würden Sie der App geben? (0 - schlechteste Bewertung bis ${maxSterne} Sterne): `, (answer) => {
   answer = Number(answer)
@@ -71,41 +62,66 @@ function berechnungDerBewertung (abgegebeneBewertung, aktuelleBewertung, aktuell
 }
 
 /*
-Aufgabenblatt 2
+*
+* Aufgabenblatt 2
+*
  */
-function menu(){
-  rl.question(`\nMenü\nTippe 1: um Bewertung manuell abzugeben\nTippe 2: um Bewertung automatisch abzugeben\n\n`, (answer)=>{
-    answer = Number(answer);
-    switch(answer){
-        case 1:
-          manuelleBewertung();
-          break;
-        case 2:
-          zufaelligeBewertung();
-          break;
-      default:
-        console.log('\nEingabe nicht erkannt probieren Sie es noch einmal.');
-        menu();
-        break;
-      }
-  }
-)}
 
-// Aufgabenblatt 2 Übung 1 Speichern der Bewerungen in einem Array
-
+// Aufgabe 1 Speichern der Bewerungen in einem Array
 function newRatingInArray(nameDerBewertung, anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung){
   ratings.push([nameDerBewertung, anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung])
   console.log(`Länge des Arrays: ${ratings.length}`);
   console.log(`Folgende Bewertung wurde in das Array gespeichert: ${ratings[anzahlAbgegebeneBewertungen-1]}`)
 }
 
+//Aufgabe 2&3&4 Speichern der Ratings in einem Objekt
 function Ratings(nameDerBewertung,anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung){
   this.nameDerBewertung = nameDerBewertung;
   this.anzahlAbgegebeneBewertungen = anzahlAbgegebeneBewertungen;
   this.zuletztEingetrageneBewertung = zuletztEingetrageneBewertung;
   this.durchschnitt = () => {
-
   }
-
   return [nameDerBewertung,anzahlAbgegebeneBewertungen,zuletztEingetrageneBewertung];
 }
+/*Test des Rating Objekts
+let ergebnis = Ratings("Hallo", 2, 3);
+console.log(ergebnis[0], ergebnis[1], ergebnis[2]);
+*/
+
+// Aufgabe 5
+/*  Antwort:
+    Variablen/Konstanten die in einer Funktion deklariert werden sind lokal.
+    Lösung: Wert implicit deklarieren (also das const weglassen) oder Konstante einfach außerhalb der Funktion deklarieren.
+ */
+const hello = "hello";
+
+helloWorld();
+worldHello();
+
+function helloWorld (){
+  world = ' World';
+  console.log(hello + world);
+}
+function worldHello (){
+  console.log(world + hello);
+}
+
+// Kleines Menü damit alle Funktionen aufgerufen werden können
+menu();
+function menu(){
+  rl.question(`\nMenü\nTippe 1: um Bewertung manuell abzugeben\nTippe 2: um Bewertung automatisch abzugeben\n\n`, (answer)=>{
+        answer = Number(answer);
+        switch(answer){
+          case 1:
+            manuelleBewertung();
+            break;
+          case 2:
+            zufaelligeBewertung();
+            break;
+          default:
+            console.log('\nEingabe nicht erkannt probieren Sie es noch einmal.');
+            menu();
+            break;
+        }
+      }
+  )}
