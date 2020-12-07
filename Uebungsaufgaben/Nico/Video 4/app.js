@@ -1,6 +1,7 @@
 'use strict';
 //Objekt reverenz
 const http = require('http');
+const path = require(`path`);
 /*
 GET, POST, PUT, DELETE
  */
@@ -8,6 +9,10 @@ GET, POST, PUT, DELETE
 
 //Funktion
 const express = require('express');
+
+const logger = require(`./logger`);
+
+const clientDirectory = path.join(__dirname, `client`);
 //Funktion
 const app = express();
 
@@ -25,10 +30,29 @@ const app = express();
     res.end();
 
 });*/
+/*//Logging
+const log = function (req){
+    console.log(`${req.method} ${req.path}`);
+};*/
+
+//Logging
+//Reihenfolge ist wichtig!
+/*app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+});*/
+//app.use(logger);
+app.use(logger({
+    level: `info`
+}));
+
+app.use(`/`, express.static(clientDirectory));
 
 app.get('/blog/:year/:month/:day?', (req, res) => {
+    //log();//vergisst man schnell wenn man es so löst
+
     if(req.query.format === 'html'){
-        res.send(`<h1>${req.params.day}.${req.params.month}.${req.params.year} </h1>`);
+        return res.send(`<h1>${req.params.day}.${req.params.month}.${req.params.year} </h1>`);
     }
 
    res.send({
