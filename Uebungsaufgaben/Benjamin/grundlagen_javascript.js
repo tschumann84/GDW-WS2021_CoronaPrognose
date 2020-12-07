@@ -9,6 +9,7 @@ console.log("Benjamin Salamon");
 const maxSterne = 5;
 let aktuelleAnzahlBewertungen = 0;
 let bewertung=0;
+let ratings = [];
 
 //Initialisieren des readLine
 const readline = require('readline');
@@ -16,6 +17,13 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+/*
+let ergebnis = Ratings("Hallo", 2, 3);
+
+console.log(ergebnis[0], ergebnis[1], ergebnis[2]);
+console.log(ergebnis2[0], ergebnis2[1], ergebnis2[2]);
+*/
 
 // Freiwillig: Ausführen eines Menüs zum auswählen der Funktionen
 menu();
@@ -31,7 +39,7 @@ rl.question(`Welche Bewertung würden Sie der App geben? (0 - schlechteste Bewer
     console.log(new Error("Eingegebener Wert nicht vom Datentyp Number"));
   } else if (typeof answer === "number" && answer >= 0 && answer <= maxSterne) {
     aktuelleAnzahlBewertungen++;
-    bewertung = berechnungDerBewertung(answer,bewertung,aktuelleAnzahlBewertungen);
+    newRatingInArray(`Bewertung Nr. ${aktuelleAnzahlBewertungen}`, aktuelleAnzahlBewertungen, answer)
     console.log(`Ihre Bewertung von ${answer} Sternen wurde gespeichert.`);
   } else {
     console.log(new Error("Unbekannter Fehler."));
@@ -47,11 +55,11 @@ function zufaelligeBewertung(){
     let randomNumber;
     for (i = 0; i<answer; i++){
       aktuelleAnzahlBewertungen++;
-      randomNumber = Math.floor(Math.random() * (maxSterne+1))
+      randomNumber = Math.floor(Math.random() * (maxSterne+1));
       bewertung = berechnungDerBewertung(randomNumber,bewertung,aktuelleAnzahlBewertungen);
-      console.log(`Abgegebene Bewertung: ${randomNumber}`)
-      console.log(`Durchschnitt Bewertung: ${bewertung}`)
-      console.log(`Anzahl der Bewertungen: ${aktuelleAnzahlBewertungen}\n`)
+      console.log(`Abgegebene Bewertung: ${randomNumber}`);
+      console.log(`Durchschnitt Bewertung: ${bewertung}`);
+      console.log(`Anzahl der Bewertungen: ${aktuelleAnzahlBewertungen}\n`);
     }
     rl.close();
   });
@@ -76,7 +84,7 @@ function menu(){
           zufaelligeBewertung();
           break;
       default:
-        console.log('\nEingabe nicht erkannt probieren Sie es noch einmal.')
+        console.log('\nEingabe nicht erkannt probieren Sie es noch einmal.');
         menu();
         break;
       }
@@ -85,6 +93,19 @@ function menu(){
 
 // Aufgabenblatt 2 Übung 1 Speichern der Bewerungen in einem Array
 
-function newRatingInArray(){
+function newRatingInArray(nameDerBewertung, anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung){
+  ratings.push([nameDerBewertung, anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung])
+  console.log(`Länge des Arrays: ${ratings.length}`);
+  console.log(`Folgende Bewertung wurde in das Array gespeichert: ${ratings[anzahlAbgegebeneBewertungen-1]}`)
+}
 
+function Ratings(nameDerBewertung,anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung){
+  this.nameDerBewertung = nameDerBewertung;
+  this.anzahlAbgegebeneBewertungen = anzahlAbgegebeneBewertungen;
+  this.zuletztEingetrageneBewertung = zuletztEingetrageneBewertung;
+  this.durchschnitt = () => {
+
+  }
+
+  return [nameDerBewertung,anzahlAbgegebeneBewertungen,zuletztEingetrageneBewertung];
 }
