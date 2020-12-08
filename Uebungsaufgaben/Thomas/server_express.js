@@ -7,6 +7,21 @@ const http = require('http');
 const express = require('express');
 const app = express();
 
+// Logging Funktion aus module importieren
+const logger = require('./module/server_express_logger');
+app.use(logger({level: 'info'}));
+
+/* STATIC
+*/
+const path = require('path');
+const static_data_directory = path.join(__dirname, 'static_data');
+
+// app.use((req, res, next) => {
+//     express.static('/', express.static(static_data_directory));
+//     next();
+// });
+app.use('/', express.static(static_data_directory));
+
 /* ROUTEN:
 * Funktionen für GET, POST, PUT, DELETE
 **
