@@ -76,11 +76,16 @@ function newRatingInArray(nameDerBewertung, anzahlAbgegebeneBewertungen, zuletzt
 
 //Aufgabe 2&3&4 Speichern der Ratings in einem Objekt
 function Ratings(nameDerBewertung,anzahlAbgegebeneBewertungen, zuletztEingetrageneBewertung){
+  let ratings = []
+
+
   this.nameDerBewertung = nameDerBewertung;
   this.anzahlAbgegebeneBewertungen = anzahlAbgegebeneBewertungen;
   this.zuletztEingetrageneBewertung = zuletztEingetrageneBewertung;
   this.durchschnitt = () => {
   }
+
+
   return [nameDerBewertung,anzahlAbgegebeneBewertungen,zuletztEingetrageneBewertung];
 }
 /*Test des Rating Objekts
@@ -105,6 +110,8 @@ function helloWorld (){
 function worldHello (){
   console.log(world + hello);
 }
+
+
 
 // Kleines Menü damit alle Funktionen aufgerufen werden können
 menu();
