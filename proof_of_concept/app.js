@@ -3,8 +3,7 @@
 const http = require(`http`);
 const https = require('https');
 const express = require('express');
-const fs = require('fs');
-
+const getmodule = require('./modules/load_sava_data');
 const app = express();
 
 
@@ -12,11 +11,9 @@ let url = "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Co
 //Leider nur auf 5_000 Objekte beschränkt..
 //let url = "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=15000&f=json";
 let kennzahl;
-let counter = 0;
+let anzahlFall= 0;
 
-
-
-
+getmodule(url);
 
 const server = http.createServer(app);
 
