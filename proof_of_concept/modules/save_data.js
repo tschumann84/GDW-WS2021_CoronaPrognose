@@ -1,6 +1,9 @@
-const getmodule = function(req){
+// Modul zum Speichern der Daten aus der API in eine JSON Datei.
+// Datei wird nach Datum benannt.
+const save_data = function(req, dest){
     const fs = require('fs');
     const https = require('https');
+    const today = require('./today');
 
     https.get(req,(res) => {
         let body = "";
@@ -10,16 +13,9 @@ const getmodule = function(req){
         });
 
         res.on("end", () => {
+            let parsedData = JSON.parse(body);
             try {
-                // write JSON string to a file
-               let today = new Date();
-               let dd = String(today.getDay());
-               let mm = String(today.getMonth()+1);
-               let yyyy = today.getFullYear();
-
-               console.log(dd);
-
-                fs.writeFile(`${yyyy}${mm}${dd}.json`, JSON.stringify(body), (err) => {
+                fs.writeFile(`./${dest}/${today('.json')}`, JSON.stringify(parsedData), (err) => {
                     if (err) {
                         throw err;
                     }
@@ -27,8 +23,8 @@ const getmodule = function(req){
                 });
             } catch (error) {
                 console.error(error.message);
-            };
+            }
         });
     });
 }
-module.exports = getmodule;
+module.exports = save_data;
