@@ -16,7 +16,7 @@ let url = "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Co
 save_data(url, kza);
 
 //Daten welche ins Archiv gespeichert wurden, werden wieder ausgelesen.
-let rawData = fs.readFileSync(`./${kza}/${today('.json', 1)}`);
+let rawData = fs.readFileSync(__dirname+`/${kza}/${today('.json', 1)}`);
 let kennzahl = JSON.parse(rawData);
 
 // Beispielalgorithmus - Berechnung der gesamt Infizierten in Deutschland
