@@ -15,7 +15,7 @@ const save_data = function(req, dest){
         res.on("end", () => {
             let parsedData = JSON.parse(body);
             try {
-                fs.writeFile(`./${dest}/${today('.json')}`, JSON.stringify(parsedData), (err) => {
+                fs.writeFile(`./${dest}/${today('.json', 0)}`, JSON.stringify(parsedData), (err) => {
                     if (err) {
                         throw err;
                     }
