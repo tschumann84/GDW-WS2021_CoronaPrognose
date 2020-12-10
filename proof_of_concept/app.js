@@ -19,7 +19,7 @@ save_data(url, kza);
 let rawData = fs.readFileSync(`./${kza}/${today('.json', 1)}`);
 let kennzahl = JSON.parse(rawData);
 
-// Beispielalgorithmus - Berechnung der gesamt Infizierten in Deutschland
+// Beispielalgorithmus - Berechnung der gesamt Infizierten in Deutschland.
 let anzahlFall=0;
 for(let i = 0; i<kennzahl.features.length; i++) {
     anzahlFall += kennzahl.features[i].attributes.Fallzahl;
