@@ -1,0 +1,22 @@
+{
+  "name": "gdwws2021geraschsalamonschumann",
+  "version": "1.0.0",
+  "description": "module-verbesserung",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann/issues"
+  },
+  "homepage": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann#readme"
+}
