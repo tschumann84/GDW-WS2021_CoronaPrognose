@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann/issues"
   },
-  "homepage": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann#readme"
+  "homepage": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
