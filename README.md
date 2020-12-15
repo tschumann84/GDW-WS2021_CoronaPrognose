@@ -15,3 +15,4 @@ Werner ist Außendienstmitarbeiter. Wie auch viele andere Berufstätige ist er d
 * [Domänenmodell Version 1.0](https://tschumann84.github.io/GDWWS2021GeraschSalamonSchumann/Domaenenmodell/Domaenenmodell_Vers1.0.html)
 ### Anwendungslogik
 * [Anwendungslogik Version 1.0](https://raw.githubusercontent.com/tschumann84/GDWWS2021GeraschSalamonSchumann/main/docs/Corona%20Ampel.png?token=ARRSNQGQFUWZX7XF36N2IUC73J6SQ)
+* [Anwendungslogik Version 1.1](https://raw.githubusercontent.com/tschumann84/GDWWS2021GeraschSalamonSchumann/main/docs/Anwendungslogik/Anwendungslogik%201.1.png?token=ARRSNQFJQZWZUTJ4MVUU5L274ELYY)
