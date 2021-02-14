@@ -34,5 +34,7 @@ function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
     });
 }
 
-getNewZombies(1,'2021-01-18','2021-01-18','LK Oberbergischer Kreis', function(intValue){console.log(intValue)});
+getNewZombies(1,'2021-01-18','2021-01-18','LK Oberbergischer Kreis', (intValue) => {
+    console.log(intValue)
+});
 module.exports = getNewZombies;
