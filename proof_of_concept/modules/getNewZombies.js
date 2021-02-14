@@ -34,4 +34,5 @@ function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
         });
     });
 }
+
 module.exports = getNewZombies;
