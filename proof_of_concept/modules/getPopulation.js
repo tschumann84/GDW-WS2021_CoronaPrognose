@@ -1,6 +1,3 @@
-const https = require('https');
-
-
 function getPopulation(typ, suchbefehl, callback){
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
     const https = require('https');
@@ -50,4 +47,5 @@ function getPopulation(typ, suchbefehl, callback){
         });
     });
 }
+
 module.exports = getPopulation;
