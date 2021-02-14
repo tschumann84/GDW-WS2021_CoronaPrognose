@@ -12,6 +12,7 @@ app.use(logd({level: 'info'}));
 // Link zur RKI API
 let url = "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=1%3D1&outFields=OBJECTID_1,LAN_ew_AGS,LAN_ew_GEN,LAN_ew_EWZ,OBJECTID,Fallzahl,Aktualisierung,AGS_TXT,GlobalID,faelle_100000_EW,Death,cases7_bl_per_100k,cases7_bl,death7_bl,cases7_bl_per_100k_txt,LAN_ew_BEZ&outSR=4326&returnGeometry=false&f=json";
 
+
 // Daten der RKI werden mit dem heutigen Datum gespeichert.
 save_data(url, kza);
 
