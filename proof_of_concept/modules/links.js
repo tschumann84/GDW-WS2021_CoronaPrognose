@@ -1,4 +1,4 @@
-const getNewZombies = function(typ, datumVon, datumBis, suchbefehl){
+function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
     const https = require('https');
     const URI = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?'
@@ -29,10 +29,10 @@ const getNewZombies = function(typ, datumVon, datumBis, suchbefehl){
         res.on("end", () => {
             let parsedData = JSON.parse(body);
             //console.log(parsedData.features[0].attributes.summiertAnzahlFall)
-            console.log(parseInt(parsedData.features[0].attributes.summiertAnzahlFall));
-            return(parseInt(parsedData.features[0].attributes.summiertAnzahlFall));
+            callback(parseInt(parsedData.features[0].attributes.summiertAnzahlFall));
         });
     });
 }
-getNewZombies(1,'2021-02-13','2021-02-13','LK Oberbergischer Kreis');
+
+getNewZombies(1,'2021-01-18','2021-01-18','LK Oberbergischer Kreis', function(intValue){console.log(intValue)});
 module.exports = getNewZombies;
