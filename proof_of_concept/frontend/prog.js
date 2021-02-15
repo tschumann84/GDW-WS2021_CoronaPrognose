@@ -16,9 +16,10 @@ router.get('/landkreis',(req,res)=>{
     res.header("Content-Type", contenttype);
     const getLandkreise = require('../modules/getLandkreise');
 
-    let array = getLandkreise((array)=>{return(array)});
+    getLandkreise((array)=>{
 
-    res.send('penis');
+        res.send(array);
+    });
 });
 
 router.get('/:tage',(req,res)=>{

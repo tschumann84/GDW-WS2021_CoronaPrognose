@@ -36,4 +36,5 @@ function getLandkreise(callback){
         });
     });
 }
+getLandkreise((array)=>{return array})
 module.exports = getLandkreise;
