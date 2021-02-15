@@ -34,8 +34,6 @@ router.get('/',(req,res)=>{
             })
             .root();
         res.send(parsed);
-    console.log(arrayInhaltsverzeichnis[0][1])
-
 });
 
 module.exports = router;

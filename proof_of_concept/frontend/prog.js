@@ -4,14 +4,30 @@ const contenttype = 'application/hal+json';
 const ST = require('stjs');
 
 
-const beispielsarray = [
-    {id: 1, name: 'coruse1'},
-    {id: 3, name: 'coruse3'}
-];
-
 router.get('/',(req,res)=>{
     res.header("Content-Type", contenttype);
-    res.send(beispielsarray);
+
+    function Inhalt(titel, link) {
+        this.titel = titel;
+        this.link = link;
+    }
+    let inhalt = [];
+
+    inhalt.push(new Inhalt('Prognose Bundesweit', 'bundesweit'));
+    inhalt.push(new Inhalt('Prognose Bundesland', 'bundesland'));
+    inhalt.push(new Inhalt('Prognose Landkreis', 'landkreis'));
+
+    const parsed = ST.select({"items": inhalt})
+        .transformWith({
+            "{{#each items}}": {
+                "Titel": "{{this.titel}}",
+                "_links": {
+                    "self": {"href": "/prog/{{this.link}}"}
+                }
+            }
+        })
+        .root();
+    res.send(parsed);
 });
 
 router.get('/landkreis',(req,res)=>{
@@ -35,21 +51,27 @@ router.get('/landkreis',(req,res)=>{
     });
 });
 
-router.get('/:tage',(req,res)=>{
+
+router.get('/bundesland',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const beispiel = beispielsarray.find(c => c.id === parseInt(req.params.tage));
-    if(!beispiel) res.status(404).send('Beispiel nicht gefunden.')
-    res.send(beispiel);
+    const getBundeslaender = require('../modules/getBundeslaender');
+
+    getBundeslaender((array)=>{
+
+        const parsed = ST.select({"items": array})
+            .transformWith({
+                "{{#each items}}": {
+                    "Bundesland": "{{this.Bundesland}}", "IDBundesland": "{{this.IdBundesland}}",
+                    "_links": {
+                        "self": {"href": "/prog/bundesland/{{IdBundesland}}"}
+                    }
+                }
+            })
+            .root();
+        res.send(parsed);
+
+    });
 });
 
-router.get('/:tage/:IdBundesland',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    res.send(beispielsarray);
-});
-
-router.get('/:tage/:IdLandkreis',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    res.send(beispielsarray);
-});
 
 module.exports = router;

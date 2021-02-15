@@ -21,6 +21,7 @@
   "homepage": "https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "stjs": "^0.0.5"
   }
 }
