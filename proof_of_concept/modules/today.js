@@ -1,5 +1,6 @@
 'use strict';
 
+//Legacy Code
 const today = function (filename, zahl) {
     
     var today = new Date();
