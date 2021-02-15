@@ -15,10 +15,22 @@ router.get('/',(req,res)=>{
 router.get('/landkreis',(req,res)=>{
     res.header("Content-Type", contenttype);
     const getLandkreise = require('../modules/getLandkreise');
+    const ST = require('stjs');
 
     getLandkreise((array)=>{
 
-        res.send(array);
+        const parsed = ST.select({"items": array})
+            .transformWith({
+                "{{#each items}}": {
+                    "Landkreis": "{{this.Landkreis}}", "IDLandkreis": "{{this.IdLandkreis}}",
+                    "_links": {
+                        "self": {"href": "/landkreis/{{IdLandkreis}}"}
+                    }
+                }
+            })
+            .root();
+        res.send(parsed);
+
     });
 });
 
