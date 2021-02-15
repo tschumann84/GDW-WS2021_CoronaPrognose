@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const contenttype = 'application/hal+json';
+const ST = require('stjs');
+
 
 const beispielsarray = [
     {id: 1, name: 'coruse1'},
@@ -15,7 +17,6 @@ router.get('/',(req,res)=>{
 router.get('/landkreis',(req,res)=>{
     res.header("Content-Type", contenttype);
     const getLandkreise = require('../modules/getLandkreise');
-    const ST = require('stjs');
 
     getLandkreise((array)=>{
 
@@ -24,7 +25,7 @@ router.get('/landkreis',(req,res)=>{
                 "{{#each items}}": {
                     "Landkreis": "{{this.Landkreis}}", "IDLandkreis": "{{this.IdLandkreis}}",
                     "_links": {
-                        "self": {"href": "/landkreis/{{IdLandkreis}}"}
+                        "self": {"href": "/prog/landkreis/{{IdLandkreis}}"}
                     }
                 }
             })
