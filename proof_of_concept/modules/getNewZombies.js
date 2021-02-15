@@ -27,7 +27,7 @@ function getNewZombies(typ, datumVon, datumBis, regionID, callback){
 
     //Hier werden die einzelnen URI Bestandteile zu einer zusammgesetzt
     const abfrageURI = URI+encodeURI(filterZusammengesetzt+anwSUM+anwDiverse);
-    console.log(abfrageURI);
+   // console.log(abfrageURI);
 
     /*
         Abfrage der RKI API
