@@ -1,7 +1,12 @@
-const https = require('https');
 
-function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
+//Gibt die Anzahl neu gemeldeter, Infizierter in einem bestimmten Zeitraum, in einer bestimmten Region aus.
+function getNewZombies(typ, datumVon, datumBis, regionID, callback){
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
+    const https = require('https');
+    /*
+        Erstellen der URI für die Anfrage an die RKI API
+     */
+    //Diverse URI bestandteile
     const URI = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?'
     const anwSUM=`&outStatistics=[{"statisticType": "sum","onStatisticField": "AnzahlFall","outStatisticFieldName": "summiertAnzahlFall"}]`;
     const anwDiverse= '&outFields=*&f=json';
@@ -10,16 +15,23 @@ function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
 
     switch (typ){
         case 1:
-            filterZusammengesetzt = anwFilter + ` AND IdLandkreis = '${suchbefehl}'`
+            filterZusammengesetzt = anwFilter + ` AND IdLandkreis = '${regionID}'`
             break;
         case 2:
-            filterZusammengesetzt = anwFilter + ` AND IdBundesland = '${suchbefehl}'`
+            filterZusammengesetzt = anwFilter + ` AND IdBundesland = '${regionID}'`
             break;
         case 3:
             filterZusammengesetzt = anwFilter
             break;
     }
+
+    //Hier werden die einzelnen URI Bestandteile zu einer zusammgesetzt
     const abfrageURI = URI+encodeURI(filterZusammengesetzt+anwSUM+anwDiverse);
+
+    /*
+        Abfrage der RKI API
+     */
+    //Abfrage der URI und Ausgabe der Summierten Anzahl der neuen Zombies als INT
     https.get(abfrageURI,(res) => {
         let body = "";
 
@@ -34,5 +46,4 @@ function getNewZombies(typ, datumVon, datumBis, suchbefehl, callback){
         });
     });
 }
-
 module.exports = getNewZombies;

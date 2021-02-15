@@ -1,6 +1,11 @@
-function getPopulation(typ, suchbefehl, callback){
+//Die die Population in einem bestimmten Landkreis, Bundesland oder Deutschlandweit aus.
+function getPopulation(typ, regionID, callback){
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
     const https = require('https');
+    /*
+       Erstellen der URI für die Anfrage an die RKI API
+    */
+    //Diverse URI bestandteile
     let fertigeUri;
     const URIBundeslaender = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?';
     const bundeslaenderDiverse = `&outFields=*&returnGeometry=false&outSR=4326&f=json`;
@@ -9,11 +14,11 @@ function getPopulation(typ, suchbefehl, callback){
         case 1:
             const URILandkreise = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?';
             const landkreiseDiverse= '&outFields=EWZ&outSR=4326&f=json&resultRecordCount=1&returnGeometry=false';
-            const filterLandkreise=`where=RS = '${suchbefehl}'`;
+            const filterLandkreise=`where=RS = '${regionID}'`;
             fertigeUri = URILandkreise+encodeURI(filterLandkreise+landkreiseDiverse);
             break;
         case 2:
-            const filterBundeslaender = `where=OBJECTID_1 = '${suchbefehl}'`;
+            const filterBundeslaender = `where=OBJECTID_1 = '${regionID}'`;
             fertigeUri = URIBundeslaender+encodeURI(filterBundeslaender+bundeslaenderDiverse);
             console.log(fertigeUri)
             break;
@@ -24,6 +29,10 @@ function getPopulation(typ, suchbefehl, callback){
             break;
     }
 
+    /*
+            Abfrage der RKI API
+    */
+    //Abfrage der URI und Ausgabe der Population in einer Region als INT
     https.get(fertigeUri,(res) => {
         let body = "";
 

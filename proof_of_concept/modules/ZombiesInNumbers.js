@@ -6,15 +6,14 @@ const getNewZombies = require('./getNewZombies');
 //    getNewZombies(1, '2021-01-0'+i, '2021-01-0'+i, '12071', (intValue) => {console.log(intValue)});
 //}
 
-
-
-const forLoop = async _ => {
-    for ( let i=1; i<=14; i++) {
-        setTimeout(function() {
-            getNewZombies(1, '2021-02-'+i, '2021-02-'+i, '12071', (intValue) =>{console.log(i+' '+intValue)});}, 5000);
-        }
-
-        //   let newZombie = getNewZombies(1, '2021-01-0'+i, '2021-01-0'+i, '12071', (intValue) => {console.log(intValue)});
+(async function() {
+    for(let i = 1; i <=14; i++){
+        await new Promise(next => {
+            getNewZombies(1, '2021-02-'+i, '2021-02-'+i, '12071', (intValue) =>{
+                console.log(i+' '+intValue);
+                next();
+            });
+        })
     }
+})()
 
-forLoop();
