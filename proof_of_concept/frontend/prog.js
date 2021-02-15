@@ -54,6 +54,70 @@ router.get('/landkreis',(req,res)=>{
 
     });
 });
+router.get('/landkreis/:id',(req,res)=>{
+    res.header("Content-Type", contenttype);
+    const parsed = ST.select({"items": daten})
+        .transformWith({
+            "{{#each items}}": {
+                "Startdatum": "{{this}}",
+                "_links": {
+                    "self": {"href": "/prog/landkreis/{{this}}"}
+                }
+            }
+        })
+        .root();
+    const getLandkreise = require('../modules/getLandkreise');
+    getLandkreise((array) =>{
+        let sended = false;
+        for (let i = 0; i < array.length; i++){
+            if (req.params.id == array[i].IdLandkreis){
+                sended=true;
+                let idLandkreis = array[i].IdLandkreis;
+                const parsed = ST.select({"items": daten})
+                    .transformWith({
+                        "{{#each items}}": {
+                            "Startdatum": "{{this}}",
+                            "_links": {
+                                "self": {"href": "/prog/landkreis/"+ idLandkreis +"/{{this}}"}
+                            }
+                        }
+                    })
+                    .root();
+                res.send(parsed);
+            }
+        }
+        if (sended === false){
+            res.status(400).send('Error 400');
+        }
+    });
+});
+
+router.get('/landkreis/:id/:Startdatum',(req,res)=> {
+    const getLandkreise = require('../modules/getLandkreise');
+    getLandkreise((array) => {
+        let sended = false;
+        for (let i = 0; i < array.length; i++) {
+            if (req.params.id == array[i].IdLandkreis) {
+                sended = true;
+                let sended2 = false;
+                for (let i = 0; i < daten.length; i++){
+                    if (req.params.Startdatum === daten[i]){
+                        sended2=true;
+                        res.send("richtig");
+                    }
+                }
+                if (sended2 === false){
+                    res.status(400).send('Error 400');
+                }
+
+                }
+        }
+        if (sended === false) {
+            res.status(400).send('Error 400');
+        }
+    });
+});
+
 
 
 router.get('/bundesland',(req,res)=>{
@@ -76,6 +140,71 @@ router.get('/bundesland',(req,res)=>{
 
     });
 });
+
+router.get('/bundesland/:id',(req,res)=>{
+    res.header("Content-Type", contenttype);
+    const parsed = ST.select({"items": daten})
+        .transformWith({
+            "{{#each items}}": {
+                "Startdatum": "{{this}}",
+                "_links": {
+                    "self": {"href": "/prog/bundesland/{{this}}"}
+                }
+            }
+        })
+        .root();
+    const getBundeslaender = require('../modules/getBundeslaender');
+    getBundeslaender((array) =>{
+        let sended = false;
+        for (let i = 0; i < array.length; i++){
+            if (req.params.id == array[i].IdBundesland){
+                sended=true;
+                let idBundesland = array[i].IdBundesland;
+                const parsed = ST.select({"items": daten})
+                    .transformWith({
+                        "{{#each items}}": {
+                            "Startdatum": "{{this}}",
+                            "_links": {
+                                "self": {"href": "/prog/bundesland/"+ idBundesland +"/{{this}}"}
+                            }
+                        }
+                    })
+                    .root();
+                res.send(parsed);
+            }
+        }
+        if (sended === false){
+            res.status(400).send('Error 400');
+        }
+    });
+});
+
+router.get('/bundesland/:id/:Startdatum',(req,res)=> {
+    const getBundeslaender = require('../modules/getBundeslaender');
+    getBundeslaender((array) => {
+        let sended = false;
+        for (let i = 0; i < array.length; i++) {
+            if (req.params.id == array[i].IdBundesland) {
+                sended = true;
+                let sended2 = false;
+                for (let i = 0; i < daten.length; i++){
+                    if (req.params.Startdatum === daten[i]){
+                        sended2=true;
+                        res.send("richtig");
+                    }
+                }
+                if (sended2 === false){
+                    res.status(400).send('Error 400');
+                }
+
+            }
+        }
+        if (sended === false) {
+            res.status(400).send('Error 400');
+        }
+    });
+});
+
 
 router.get('/bundesweit',(req,res)=>{
     res.header("Content-Type", contenttype);

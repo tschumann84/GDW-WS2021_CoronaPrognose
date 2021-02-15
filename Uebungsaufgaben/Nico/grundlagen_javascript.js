@@ -62,3 +62,6 @@ rl.question("Geben Sie ihre Bewertung von 0 bis 5 Sternen an: ",(answer) => {
 
 //console.log("Aktuelle Bewertung: " + aktuelleSterne + " von möglichen "+Sterne+" Sternen.");
 //console.log("Bei dieser Anzahl von Bewertungen: " + anzahlvonSternen);
+
+let today = new Date();
+let beginning = new Date('2020-04-01T00:00:00')
