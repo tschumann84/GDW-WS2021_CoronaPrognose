@@ -20,12 +20,10 @@ function getPopulation(typ, regionID, callback){
         case 2:
             const filterBundeslaender = `where=OBJECTID_1 = '${regionID}'`;
             fertigeUri = URIBundeslaender+encodeURI(filterBundeslaender+bundeslaenderDiverse);
-            console.log(fertigeUri)
             break;
         case 3:
             const filterDeutschlandweit = 'where=1=1'
             fertigeUri = URIBundeslaender+encodeURI(filterDeutschlandweit+bundeslaenderDiverse);
-            console.log(fertigeUri)
             break;
     }
 
@@ -56,5 +54,4 @@ function getPopulation(typ, regionID, callback){
         });
     });
 }
-
 module.exports = getPopulation;

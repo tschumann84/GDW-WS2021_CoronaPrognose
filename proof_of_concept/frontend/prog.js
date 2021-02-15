@@ -12,6 +12,15 @@ router.get('/',(req,res)=>{
     res.send(beispielsarray);
 });
 
+router.get('/landkreis',(req,res)=>{
+    res.header("Content-Type", contenttype);
+    const getLandkreise = require('../modules/getLandkreise');
+
+    let array = getLandkreise((array)=>{return(array)});
+
+    res.send('penis');
+});
+
 router.get('/:tage',(req,res)=>{
     res.header("Content-Type", contenttype);
     const beispiel = beispielsarray.find(c => c.id === parseInt(req.params.tage));
