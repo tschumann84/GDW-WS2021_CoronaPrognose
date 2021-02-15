@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router()
 const contenttype = 'application/hal+json';
 const ST = require('stjs');
+const getStartDates = require('../modules/getStartDates');
+let daten = getStartDates();
+
+
 
 
 router.get('/',(req,res)=>{
@@ -71,6 +75,35 @@ router.get('/bundesland',(req,res)=>{
         res.send(parsed);
 
     });
+});
+
+router.get('/bundesweit',(req,res)=>{
+    res.header("Content-Type", contenttype);
+        const parsed = ST.select({"items": daten})
+            .transformWith({
+                "{{#each items}}": {
+                    "Startdatum": "{{this}}",
+                    "_links": {
+                        "self": {"href": "/prog/bundesweit/{{this}}"}
+                    }
+                }
+            })
+            .root();
+        res.send(parsed);
+    });
+
+router.get('/bundesweit/:id',(req,res)=>{
+    res.header("Content-Type", contenttype);
+    let sended = false;
+    for (let i = 0; i < daten.length; i++){
+        if (req.params.id === daten[i]){
+            sended=true;
+            res.send("richtig");
+        }
+    }
+    if (sended === false){
+        res.status(400).send('Error 400');
+    }
 });
 
 
