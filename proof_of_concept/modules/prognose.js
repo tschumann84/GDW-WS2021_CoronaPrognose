@@ -61,8 +61,13 @@ function prognose (typ, typID) {
 
     function INFuINZ() {
         for (let i = 0; i < 5; i++) {
-                inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
-                inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+               // inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+               // inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+
+
+                inf[i] = getNewZombies(typ, enddatum[i], enddatum[i+1], typID)
+                    .then(ergebnis => )
+
                 inz[i] = inz[i]/272022*100000;
                 console.log(inf[i]+' '+inz[i])
             }
