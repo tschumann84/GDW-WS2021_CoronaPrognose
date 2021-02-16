@@ -38,31 +38,22 @@ router.get('/landkreis/:id',(req,res)=>{
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
-/*
-router.get('/landkreis/:id/:Startdatum',(req,res)=> {
-    checkLandkreisID(req.params.id)
-        .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
-        .catch(err => res.send(err.toString()))
-});
-*/
+
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
-    console.log(neuesArray);
     checkLandkreisID(req.params.id)
-        .then(datumscheck2 => checkDatumID(req.params.Startdatum, daten))
-        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
+        .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
+        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
 
 router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
-    console.log(neuesArray);
     checkLandkreisID(req.params.id)
-        .then(datumscheck2 => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck2 => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}`))
+        .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
+        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}`))
         .then(parsedObjects => res.send("Hier fehlt Thomas"))
         .catch(err => res.send(err.toString()))
 });
@@ -81,9 +72,21 @@ router.get('/bundesland/:id',(req,res)=>{
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkBundeslandID(req.params.id)
-        .then(bundeslandExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
+        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch(err => res.send(err.toString()))
+});
+
+router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
+    checkBundeslandID(req.params.id)
+        .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
+        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}`))
+        .then(parsedObjects => res.send("Hier fehlt Thomas"))
         .catch(err => res.send(err.toString()))
 });
 
@@ -92,9 +95,20 @@ router.get('/bundesweit',(req,res)=>{
         .then (parsedObjects => res.send(parsedObjects))
 });
 
-router.get('/bundesweit/:id',(req,res)=>{
+router.get('/bundesweit/:id',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.id)
     checkDatumID(req.params.id,daten)
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.id}/`,`/retro/bundesweit/${req.params.id}`))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch(err => res.send(err.toString()))
+});
+
+router.get('/bundesweit/:id/:Enddatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.id)
+    checkDatumID(req.params.id,daten)
+        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.id}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.id}/${req.params.Startdatum}`))
+        .then(parsedObjects => res.send("Hier fehlt Thomas"))
         .catch(err => res.send(err.toString()))
 });
 
