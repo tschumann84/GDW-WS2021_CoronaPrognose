@@ -51,7 +51,7 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     console.log(neuesArray);
     checkLandkreisID(req.params.id)
         .then(datumscheck2 => checkDatumID(req.params.Startdatum, daten))
-        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/`,`/retro/landkreis/${req.params.id}`))
+        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
