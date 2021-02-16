@@ -95,19 +95,19 @@ router.get('/bundesweit',(req,res)=>{
         .then (parsedObjects => res.send(parsedObjects))
 });
 
-router.get('/bundesweit/:id',(req,res)=> {
-    let neuesArray = getStartDatesVar(req.params.id)
-    checkDatumID(req.params.id,daten)
-        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.id}/`,`/retro/bundesweit/${req.params.id}`))
+router.get('/bundesweit/:Startdatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
+    checkDatumID(req.params.Startdatum,daten)
+        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
 
-router.get('/bundesweit/:id/:Enddatum',(req,res)=> {
-    let neuesArray = getStartDatesVar(req.params.id)
-    checkDatumID(req.params.id,daten)
+router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
+    checkDatumID(req.params.Startdatum,daten)
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.id}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.id}/${req.params.Startdatum}`))
+        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
         .then(parsedObjects => res.send("Hier fehlt Thomas"))
         .catch(err => res.send(err.toString()))
 });
