@@ -7,6 +7,7 @@ const parsedLandkreisIndex = require('../modules/parsingTemplates/retro/parsedLa
 const parsedBundeslandIndex = require('../modules/parsingTemplates/retro/parsedBundeslandIndex');
 const parsedDatenIndex = require('../modules/parsingTemplates/retro/parsedDatenIndex');
 const parsedEndDatenIndex = require('../modules/parsingTemplates/retro/parsedEndDatenIndex');
+const parsedRetroNumbers = require('../modules/parsingTemplates/retro/parsedRetroNumbers');
 
 //Ressourcen
 const getRetroHome = require('../modules/getRetroHome');
@@ -14,6 +15,7 @@ const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
 const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
 const getStartDates = require('../modules/getStartDates');
 const getStartDatesVar = require('../modules/getStartDatesVar');
+const getRetroNumbers = require('../modules/rkiapimodules/getRetroNumbers');
 let daten = getStartDates();
 
 //Vaildation
@@ -108,8 +110,11 @@ router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkDatumID(req.params.Startdatum,daten)
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
-        .then(parsedObjects => res.send("Hier fehlt Thomas"))
+        .then(returncheckenddatum => {
+            getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
+                .then( object => parsedRetroNumbers(object, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
+                .then(parsedObjects => res.send(parsedObjects))
+        })
         .catch(err => res.send(err.toString()))
 });
 
