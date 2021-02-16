@@ -45,14 +45,6 @@ function getNewZombies(typ, datumVon, datumBis, regionID){
                 let parsedData = JSON.parse(body);
                 //console.log(parsedData.features[0].attributes.summiertAnzahlFall)
                 resolve(parseInt(parsedData.features[0].attributes.summiertAnzahlFall));
-
-                const getInzidenz = require('./spass/getInzidenz');
-
-
-                getWerte(typ, regionID)
-                    .then(Inzidenz => getInzidenz(population))
-                    .then(NeueFälle => )
-
             });
         });
     })

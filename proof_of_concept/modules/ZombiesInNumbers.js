@@ -10,7 +10,7 @@ const getDate = require('./getDate');
 (async function() {
     for(let i = -350; i <-308; i++){
         await new Promise(next => {
-            getNewZombies(1, getDate(i), getDate(i), '13003', (intValue) =>{
+            getNewZombies(1, getDate(i), getDate(i), '03101', (intValue) =>{
                 console.log(getDate(i)+' '+intValue);
                 next();
             });
