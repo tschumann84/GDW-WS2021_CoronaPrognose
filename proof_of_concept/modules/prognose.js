@@ -87,13 +87,14 @@
 //const dateCalc = require('./calcModules/dateCalc');
 const getNewZombies = require('./rkiapimodules/getNewZombies');
 const getPopulation = require('./rkiapimodules/getPopulation');
+const getInzidenz = require('./calcModules/getInzidenz');
 const getDate = require('./getDate');
 //const getINFuINZ = require('./calcModules/getINFuINZ');
-const m = 4;
+// const m = 4;
 
     //Function call with "typ" of Region, startdatum, typID = ID of Region
 async function prognose(typ, date, typID) {
-
+    const m = 4;
     let inf = [];
     let inz = [];
   //  let enddatum = [dateCalc(date,-35), dateCalc(date,-28),dateCalc(date,-21),dateCalc(date,-14),dateCalc(date,-7),dateCalc(date,0)];
@@ -109,12 +110,74 @@ async function prognose(typ, date, typID) {
     //     console.log(getDate(i*-1)+' '+inf[i]);
     // }
     for(let i=0; i<5;i++) {
-       inf[i] = await getNewZombies(1, enddatum[i], enddatum[i+1],'13003');
+       inf[i] = await getNewZombies(1, enddatum[i], enddatum[i+1],'05374');
+       // let population = await getPopulation(typ, typID);
+       // inz[i] = inf[i] * population / 100000;
+       inz[i] = await getInzidenz(inf[i], typ, typID);
 
-       inz[i] = inf[i] / getPopulation(typ, typID) * 100000;
+       // inz[i] = inf[i] / getPopulation(typ, typID) * 100000;
     }
-    console.log('Infizierte: '+inf);
-    console.log('Inzidenz: '+inz);
+
+    //Tableu Classic
+    //tc1u2 = tc4
+    //tc2u3 = tc5
+    //tc1u2u3 = tc6
+    let tcinf = [];
+    tcinf[1]= m/2*(inf[0]+inf[4]);
+    tcinf[2]= m/4*(inf[0]+inf[4])+m/2*inf[2];
+    tcinf[3]= m/8*(inf[0]+inf[4])+m/4*(inf[1]+inf[2]+inf[3]);
+        tcinf[4]= (m*(tcinf[2]-tcinf[1]))/3;
+        tcinf[5]= (m*(tcinf[3]-tcinf[2]))/3;
+            tcinf[6]= (m*m*(tcinf[5]-tcinf[4]))/((m*m)-1);
+    tcinf[0] = tcinf[6]/2;
+    let tsinf = [];
+    tsinf[1] = m/2*(inf[0]+inf[1]);
+    tsinf[2] = m/4*(inf[0]+inf[1])+m/2*inf[2];
+    tsinf[3] = m/8*(inf[0]+inf[1])+m/4*(inf[2]+inf[3]+inf[4]);
+        tsinf[4] = (m*(tsinf[1]-tsinf[2]))/3;
+        tsinf[5] = (m*(tsinf[2]-tsinf[3]))/3;
+            tsinf[6] = (m*m*(tsinf[5]-tsinf[4]))/((m*m)-1);
+    tsinf[0] = tsinf[6]/2;
+
+    let infizierte;
+    if ( tsinf[6] > 0) {
+        infizierte = tcinf[0] + tsinf[6]
+    } else {
+        infizierte = tcinf[0] + tsinf[0]
+    }
+
+    let tcinz = [];
+    tcinz[1]= m/2*(inz[0]+inz[4]);
+    tcinz[2]= m/4*(inz[0]+inz[4])+m/2*inz[2];
+    tcinz[3]= m/8*(inz[0]+inz[4])+m/4*(inz[1]+inz[2]+inz[3]);
+        tcinz[4]= (m*(tcinz[2]-tcinz[1]))/3;
+        tcinz[5]= (m*(tcinz[3]-tcinz[2]))/3;
+            tcinz[6]= (m*m*(tcinz[5]-tcinz[4]))/((m*m)-1);
+    tcinz[0] = tcinz[6]/2;
+    let tsinz = [];
+    tsinz[1] = m/2*(inz[0]+inz[1]);
+    tsinz[2] = m/4*(inz[0]+inz[1])+m/2*inz[2];
+    tsinz[3] = m/8*(inz[0]+inz[1])+m/4*(inz[2]+inz[3]+inz[4]);
+        tsinz[4] = (m*(tsinz[1]-tsinz[2]))/3;
+        tsinz[5] = (m*(tsinz[2]-tsinz[3]))/3;
+            tsinz[6] = (m*m*(tsinz[5]-tsinz[4]))/((m*m)-1);
+    tsinz[0] = tsinz[6]/2;
+
+    let inzidenz;
+    if (tsinz[6] > 0) {
+        inzidenz = tcinz[0] + tsinz[6]
+    } else {
+        inzidenz = tcinz[0] + tsinz[0]
+    }
+
+    console.log('Infizierte: ');
+    console.log(inf);
+    console.log(tcinf);
+    console.log(infizierte)
+    console.log('Inzidenz: ');
+    console.log(inz);
+    console.log(tsinz);
+    console.log(inzidenz);
 
 }
-prognose(1,'2021-02-16',13003)
+prognose(1,'2021-02-16','05374')
