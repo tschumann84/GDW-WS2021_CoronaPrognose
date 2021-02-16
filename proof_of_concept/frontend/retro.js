@@ -6,6 +6,7 @@ const parsedSimpleIndex = require('../modules/parsingTemplates/retro/parsedSimpl
 const parsedLandkreisIndex = require('../modules/parsingTemplates/retro/parsedLandkreisIndex');
 const parsedBundeslandIndex = require('../modules/parsingTemplates/retro/parsedBundeslandIndex');
 const parsedDatenIndex = require('../modules/parsingTemplates/retro/parsedDatenIndex');
+const parsedEndDatenIndex = require('../modules/parsingTemplates/retro/parsedEndDatenIndex');
 
 //Ressourcen
 const getRetroHome = require('../modules/getRetroHome');
@@ -43,7 +44,7 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkLandkreisID(req.params.id)
         .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
+        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
@@ -75,7 +76,7 @@ router.get('/bundesland/:id/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkBundeslandID(req.params.id)
         .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
+        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
@@ -98,7 +99,7 @@ router.get('/bundesweit',(req,res)=>{
 router.get('/bundesweit/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkDatumID(req.params.Startdatum,daten)
-        .then(returncheckdatum => parsedDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
+        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
