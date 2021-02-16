@@ -12,6 +12,7 @@ const getRetroHome = require('../modules/getRetroHome');
 const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
 const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
 const getStartDates = require('../modules/getStartDates');
+const getStartDatesVar = require('../modules/getStartDatesVar');
 let daten = getStartDates();
 
 //Vaildation
@@ -37,11 +38,22 @@ router.get('/landkreis/:id',(req,res)=>{
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
-
+/*
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     checkLandkreisID(req.params.id)
         .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
         .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
+});
+*/
+router.get('/landkreis/:id/:Startdatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
+    console.log(neuesArray);
+    checkLandkreisID(req.params.id)
+        .then(datumscheck2 => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}`,`/retro/landkreis/${req.params.id}`))
+        .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.send(err.toString()))
 });
 
