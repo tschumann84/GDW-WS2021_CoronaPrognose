@@ -46,43 +46,7 @@
 
      - Prognosewert:
             prog = wenn ts1u2u3 <=0 dann mwn sonst mwp
- */
-// function prognose (typ, typID) {
-//
-//     const getDate = require('./getDate');
-//     const getNewZombies = require('./rkiapimodules/getNewZombies')
-//     const getINFuINZ = require('./calcModules/getINFuINZ')
-//     const startdatum = getDate(0);
-//
-//     const m = 4;
-//     let enddatum = [getDate(-35),getDate(-28),getDate(-21),getDate(-14),getDate(-7),getDate(0)];
-//     let inf = [4,3,2,1,0];
-//     let inz = [4,3,2,1,0];
-//
-//     function INFuINZ() {
-//         for (let i = 0; i < 5; i++) {
-//                // inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
-//                // inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
-//
-//
-//                 inf[i] = getNewZombies(typ, enddatum[i], enddatum[i+1], typID)
-//                     .then(ergebnis => )
-//
-//                 inz[i] = inz[i]/272022*100000;
-//                 console.log(inf[i]+' '+inz[i])
-//             }
-//         }
-//         return inf + inz;
-//
-//
-//     INFuINZ();
-//     console.log(inf);
-//     console.log(inz);
-//
-//     return inf + inz;
-// }
-// var prog = prognose(1, '05374');
-// console.log(prog)
+*/
 
 //const dateCalc = require('./calcModules/dateCalc');
 const getNewZombies = require('./rkiapimodules/getNewZombies');
@@ -110,7 +74,7 @@ async function prognose(typ, date, typID) {
     //     console.log(getDate(i*-1)+' '+inf[i]);
     // }
     for(let i=0; i<5;i++) {
-       inf[i] = await getNewZombies(1, enddatum[i], enddatum[i+1],'05374');
+       inf[i] = await getNewZombies(typ, enddatum[i], enddatum[i+1],typID);
        // let population = await getPopulation(typ, typID);
        // inz[i] = inf[i] * population / 100000;
        inz[i] = await getInzidenz(inf[i], typ, typID);
@@ -136,16 +100,20 @@ async function prognose(typ, date, typID) {
     tsinf[3] = m/8*(inf[0]+inf[1])+m/4*(inf[2]+inf[3]+inf[4]);
         tsinf[4] = (m*(tsinf[1]-tsinf[2]))/3;
         tsinf[5] = (m*(tsinf[2]-tsinf[3]))/3;
-            tsinf[6] = (m*m*(tsinf[5]-tsinf[4]))/((m*m)-1);
+            tsinf[6] = (m*m*(tsinf[4]-tsinf[5]))/((m*m)-1);
     tsinf[0] = tsinf[6]/2;
 
     let infizierte;
+    // if ( tsinf[6] > 0) {
+    //     infizierte = tcinf[0] + tsinf[6]
+    // } else {
+    //     infizierte = tcinf[0] + tsinf[0]
+    // }
     if ( tsinf[6] > 0) {
-        infizierte = tcinf[0] + tsinf[6]
+        infizierte = (Math.abs(tcinf[0]) + Math.abs(tsinf[6]))/2
     } else {
-        infizierte = tcinf[0] + tsinf[0]
+        infizierte = (Math.abs(tcinf[0]) + Math.abs(tsinf[0]))/2
     }
-
     let tcinz = [];
     tcinz[1]= m/2*(inz[0]+inz[4]);
     tcinz[2]= m/4*(inz[0]+inz[4])+m/2*inz[2];
@@ -164,20 +132,35 @@ async function prognose(typ, date, typID) {
     tsinz[0] = tsinz[6]/2;
 
     let inzidenz;
+    // if (tsinz[6] > 0) {
+    //     inzidenz = tcinz[0] + tsinz[6]
+    // } else {
+    //     inzidenz = tcinz[0] + tsinz[0]
+    // }
     if (tsinz[6] > 0) {
-        inzidenz = tcinz[0] + tsinz[6]
+        inzidenz = (Math.abs(tcinz[0]) + Math.abs(tsinz[6]))/2
     } else {
-        inzidenz = tcinz[0] + tsinz[0]
+        inzidenz = (Math.abs(tcinz[0]) + Math.abs(tsinz[0]))/2
     }
 
-    console.log('Infizierte: ');
+    console.log('### Infizierte: ');
+    console.log('#Wochensummen: ');
     console.log(inf);
+    console.log('#Tableu Classic: ');
     console.log(tcinf);
+    console.log('#Tableu Schumann: ');
+    console.log(tsinf);
+    console.log('#Prognose Infizierte:')
     console.log(infizierte)
-    console.log('Inzidenz: ');
+    console.log('### Inzidenz: ');
+    console.log('#Wocheninzidenz: ');
     console.log(inz);
+    console.log('#Tableu Classic: ');
+    console.log(tcinz);
+    console.log('#Tableu Schumann: ')
     console.log(tsinz);
+    console.log('#Prognoze Inzidenz:')
     console.log(inzidenz);
 
 }
-prognose(1,'2021-02-16','05374')
+prognose(1,'2021-02-16','13003')
