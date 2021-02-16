@@ -52,7 +52,6 @@
 const getNewZombies = require('./rkiapimodules/getNewZombies');
 const getPopulation = require('./rkiapimodules/getPopulation');
 const getInzidenz = require('./calcModules/getInzidenz');
-const getDate = require('./getDate');
 //const getINFuINZ = require('./calcModules/getINFuINZ');
 // const m = 4;
 
@@ -62,12 +61,25 @@ async function prognose(typ, date, typID) {
     let inf = [];
     let inz = [];
   //  let enddatum = [dateCalc(date,-35), dateCalc(date,-28),dateCalc(date,-21),dateCalc(date,-14),dateCalc(date,-7),dateCalc(date,0)];
-    let enddatum = [getDate(-35),
-                    getDate(-28),
-                    getDate(-21),
-                    getDate(-14),
-                    getDate(-7),
-                    getDate(+0)]
+    let X = new Date(date);
+    console.log(X);
+    let j = 0;
+    let enddatum = [];
+    for (let i=-35; i<=0; i=i+7){
+        console.log(i+ ' <i j> '+j)
+        // enddatum[j] = (x.getDate()+i);
+        enddatum[j] = await [new Date()];
+        await enddatum[j].setDate(X.getDate()+i);
+        j++;
+    }
+    console.log(enddatum[0]);
+
+    // let enddatum = [getDate(-35),
+    //                 getDate(-28),
+    //                 getDate(-21),
+    //                 getDate(-14),
+    //                 getDate(-7),
+    //                 getDate(+0)]
 
     // for(let i = 1; i <10; i++){
     //     inf[i] = await getNewZombies(1, getDate(i*-1), getDate(i*-1), '13003');
@@ -143,6 +155,9 @@ async function prognose(typ, date, typID) {
         inzidenz = (Math.abs(tcinz[0]) + Math.abs(tsinz[0]))/2
     }
 
+    let ampel = 'rot';
+
+
     console.log('### Infizierte: ');
     console.log('#Wochensummen: ');
     console.log(inf);
@@ -162,7 +177,14 @@ async function prognose(typ, date, typID) {
     console.log('#Prognoze Inzidenz:')
     console.log(inzidenz);
 
+    function Back(infizierte, inzidenz, ampel) {
+        this.infizierte = infizierte
+        this.inzidenz = inzidenz
+        this.ampel = ampel
+    }
+    return(new Back(infizierte, inzidenz, ampel));
 }
-prognose(1,'2021-02-16','13003')
+prognose(1,'2021-02-01','13003')
+    .then(ergebnis => {console.log(ergebnis)})
 
-modules.exports = prognose
+module.exports = prognose
