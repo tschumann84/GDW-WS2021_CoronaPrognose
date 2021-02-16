@@ -1,5 +1,6 @@
 
-function getLandkreise(callback){
+function getLandkreise(){
+    return new Promise((resolve, reject)=>{
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
     const https = require('https');
     /*
@@ -30,11 +31,10 @@ function getLandkreise(callback){
                 arrayLandkreise.push(new Landkreis(parsedData.features[i].attributes.IdLandkreis, parsedData.features[i].attributes.Landkreis))
                 i++;
             }
-
             //console.log(parsedData.features[0].attributes.summiertAnzahlFall)
-            callback(arrayLandkreise);
+            resolve(arrayLandkreise);
         });
     });
+});
 }
-getLandkreise((array)=>{return array})
 module.exports = getLandkreise;

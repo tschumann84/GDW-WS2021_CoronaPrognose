@@ -1,6 +1,5 @@
 const express = require('express');
-const router = express.Router()
-const contenttype = 'application/hal+json';
+const router = express.Router();
 
 //Templates
 const parsedSimpleIndex = require('../modules/parsingTemplates/prog/parsedSimpleIndex');
@@ -21,89 +20,60 @@ const checkDatumID = require('../modules/validation/checkDatumID');
 const checkLandkreisID = require('../modules/validation/checkLandkreisID');
 
 router.get('/',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    getProgHome((inhalt)=>{
-        parsedSimpleIndex(inhalt, (parsed)=>{res.send(parsed);})
-    })
+    getProgHome()
+        .then(array => parsedSimpleIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
 });
 
 router.get('/landkreis',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    getLandkreise((array)=>{
-        parsedLandkreisIndex(array, (parsed)=>{res.send(parsed);})
-    });
+    getLandkreise()
+        .then(array => parsedLandkreisIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
 });
 
 router.get('/landkreis/:id',(req,res)=>{
-    res.header("Content-Type", contenttype);
-
-    checkLandkreisID(req.params.id, (landkreisExisting)=>{
-        if(landkreisExisting){
-            parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis',(parsed)=>{res.send(parsed);})
-        }
-        else {
-            res.status(400).send('Error 400');
-        }
-    })
+    checkLandkreisID(req.params.id)
+        .then(landkreisExisting => parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis'))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch(err => res.send(err.toString()))
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
-    checkLandkreisID(req.params.id, (landkreisExisting)=>{
-        if(landkreisExisting && checkDatumID(req.params.Startdatum,daten)){
-            res.send("Hier fehlt Thomas. ");
-        }
-        else {
-            res.status(400).send('Ressource nicht vorhanden.');
-        }
-    })
+    checkLandkreisID(req.params.id)
+        .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
 });
 
 router.get('/bundesland',(req,res)=>{
-    res.header("Content-Type", contenttype);
-
-    getBundeslaender((array)=>{
-        parsedBundeslandIndex(array, (parsed)=>{res.send(parsed);})
-    });
+    getBundeslaender()
+        .then(array => parsedBundeslandIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
 });
 
 router.get('/bundesland/:id',(req,res)=>{
-    res.header("Content-Type", contenttype);
-
-    checkBundeslandID(req.params.id, (bundeslandExisting)=>{
-        if(bundeslandExisting){
-            parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'prog/bundesland',(parsed)=>{res.send(parsed);})
-        }
-        else {
-            res.status(400).send('Ressource nicht verfügbar.');
-        }
-    })
+    checkBundeslandID(req.params.id)
+        .then(bundeslandExisting => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'prog/bundesland'))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch (err => res.send(err.toString()))
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
-    checkBundeslandID(req.params.id, (bundeslandExisting)=>{
-        if(bundeslandExisting && checkDatumID(req.params.Startdatum,daten)){
-            res.send("Hier fehlt Thomas. ");
-        }
-        else {
-            res.status(400).send('Ressource nicht vorhanden.');
-        }
-    })
+    checkBundeslandID(req.params.id)
+        .then(bundeslandExisting => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
 });
 
 router.get('/bundesweit',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    parsedDatenIndex(daten, `/prog/bundesweit/`,'/prog',(parsed)=>{res.send(parsed);})
+    parsedDatenIndex(daten, `/prog/bundesweit/`,'/prog')
+        .then (parsedObjects => res.send(parsedObjects))
 });
 
 router.get('/bundesweit/:id',(req,res)=>{
-    res.header("Content-Type", contenttype);
-
-    if(checkDatumID(req.params.id,daten)){
-        res.send("Hier fehlt Thomas.");
-    }
-    else {
-        res.status(400).send('Ressource nicht vorhanden.');
-    }
+    checkDatumID(req.params.id,daten)
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
 });
 
 module.exports = router;

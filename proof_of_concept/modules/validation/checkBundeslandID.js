@@ -1,17 +1,24 @@
 const getBundeslaender = require('../rkiapimodules/getBundeslaender');
-function checkBundeslandID(IdBundesland,callback){
-    getBundeslaender((array) =>{
-        let boolean;
-        let call = false;
-        for (let i = 0; i < array.length; i++){
-            if (IdBundesland == array[i].IdBundesland){
-                boolean = true;
-                call = true;
-                callback(boolean)
-            }
-        }
-        if(call===false){
-            callback(false);
-        }
-    })}
+function checkBundeslandID(IdBundesland){
+    return new Promise ((resolve, reject) =>{
+        getBundeslaender()
+            .then(array => {
+                    let res = false;
+                    let loop = false;
+                    for (let i = 0; i < array.length; i++) {
+                        if (IdBundesland == array[i].IdBundesland) {
+                            res = true;
+                            resolve(true)
+                        }
+                        if ((i + 1) === array.length && res === false) {
+                            loop = true
+                        }
+                    }
+                    if (res === false && loop === true) {
+                        reject(new Error('400'));
+                    }
+                }
+            )
+
+})}
 module.exports = checkBundeslandID;
