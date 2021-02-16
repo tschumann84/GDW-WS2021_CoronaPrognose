@@ -56,8 +56,11 @@ router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
     checkLandkreisID(req.params.id)
         .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}`))
-        .then(parsedObjects => res.send("Hier fehlt Thomas"))
+        .then(returncheckenddatum => {
+            getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
+                .then( object => parsedRetroNumbers(object, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`))
+                .then(parsedObjects => res.send(parsedObjects))
+        })
         .catch(err => res.send(err.toString()))
 });
 
@@ -88,8 +91,11 @@ router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
     checkBundeslandID(req.params.id)
         .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => parsedDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}`))
-        .then(parsedObjects => res.send("Hier fehlt Thomas"))
+        .then(returncheckenddatum => {
+            getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
+                .then( object => parsedRetroNumbers(object, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`))
+                .then(parsedObjects => res.send(parsedObjects))
+        })
         .catch(err => res.send(err.toString()))
 });
 
