@@ -7,6 +7,7 @@ function getStartDates(){
     for(let i = 0; i<x; i++){
         daten[i] = getDate((i*-1));
     }
+    daten.shift();
     return daten;
 }
 module.exports = getStartDates;

@@ -4,9 +4,10 @@ function getStartDatesVar(mindate){
         let x = Math.round((new Date()-new Date(`${mindate}T00:00:00`))/60/60/24/1000);
         let daten = [];
 
-        for(let i = 0; i<x; i++){
+        for(let i = 1; i<x; i++){
             daten[i] = getDate((i*-1));
         }
-        return(daten);
+    daten.shift();
+    return(daten);
 }
 module.exports = getStartDatesVar;

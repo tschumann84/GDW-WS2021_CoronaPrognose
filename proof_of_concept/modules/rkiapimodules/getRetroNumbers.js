@@ -57,7 +57,7 @@ function getRetroNumbers(typ, datumVon, datumBis, regionID){
 
                 getPopulation(typ, regionID)
                     .then(population => {(
-                        inzidenz = (((((parsedData.features[0].attributes.AnzahlFall)/population)*100000)/anzahlTage)*7))
+                        inzidenz = Math.round((((((parsedData.features[0].attributes.AnzahlFall)/population)*100000)/anzahlTage)*7)))
                         let inhalt = [];
                         inhalt.push(new RetroMeldung(parsedData.features[0].attributes.AnzahlFall, parsedData.features[0].attributes.AnzahlTodesfall, parsedData.features[0].attributes.AnzahlGenesen, inzidenz));
                         resolve(inhalt)
