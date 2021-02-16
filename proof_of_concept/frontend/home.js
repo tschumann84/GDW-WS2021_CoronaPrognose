@@ -13,9 +13,9 @@ router.get('/*',(req,res,next) => {
 
 router.get('/',(req,res)=>{
     res.header("Content-Type", contenttype);
-    getHome((inhalt)=>{
-        parsedHome(inhalt,(parsed)=>{res.send(parsed);});
-    })
+    getHome()
+        .then(home => parsedHome(home))
+        .then(parsedObject =>(res.send(parsedObject)))
 });
 
 module.exports = router;

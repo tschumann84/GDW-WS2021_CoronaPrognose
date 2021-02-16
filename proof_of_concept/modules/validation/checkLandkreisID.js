@@ -14,7 +14,7 @@ function checkLandkreisID(landkreisID) {
                     if((i+1) === array.length && res===false){loop = true}
                 }
                 if(res === false && loop === true){
-                    reject(new Error ('400'));
+                    reject(new Error ('404'));
                 }
             })
     });

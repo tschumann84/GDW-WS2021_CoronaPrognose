@@ -1,13 +1,14 @@
 const ST = require('stjs');
 
-function parsedHome(array){
-    return new Promise((resolve, reject)=> {
+function parsedDatenIndex(array, link, parent) {
+    return new Promise((resolve, reject) => {
         const parsed = ST.select({"items": array})
             .transformWith({
                 "{{#each items}}": {
-                    "Titel": "{{this.titel}}",
+                    "Startdatum": "{{this}}",
                     "_links": {
-                        "self": {"href": "/{{this.link}}"}
+                        "self": {"href": link + "{{this}}"},
+                        "parent": {"href": parent}
                     }
                 }
             })
@@ -15,4 +16,4 @@ function parsedHome(array){
         resolve(parsed);
     })
 }
-module.exports = parsedHome;
+module.exports = parsedDatenIndex;
