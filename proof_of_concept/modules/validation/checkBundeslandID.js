@@ -15,7 +15,7 @@ function checkBundeslandID(IdBundesland){
                         }
                     }
                     if (res === false && loop === true) {
-                        reject(new Error('400'));
+                        reject(new Error('404'));
                     }
                 }
             )

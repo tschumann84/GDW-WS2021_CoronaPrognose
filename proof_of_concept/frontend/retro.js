@@ -1,78 +1,79 @@
 const express = require('express');
-const router = express.Router()
-const ST = require('stjs');
+const router = express.Router();
 
+//Templates
+const parsedSimpleIndex = require('../modules/parsingTemplates/retro/parsedSimpleIndex');
+const parsedLandkreisIndex = require('../modules/parsingTemplates/retro/parsedLandkreisIndex');
+const parsedBundeslandIndex = require('../modules/parsingTemplates/retro/parsedBundeslandIndex');
+const parsedDatenIndex = require('../modules/parsingTemplates/retro/parsedDatenIndex');
 
-const contenttype = 'application/hal+json';
+//Ressourcen
+const getRetroHome = require('../modules/getRetroHome');
+const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
+const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
+const getStartDates = require('../modules/getStartDates');
+let daten = getStartDates();
 
+//Vaildation
+const checkBundeslandID = require('../modules/validation/checkBundeslandID');
+const checkDatumID = require('../modules/validation/checkDatumID');
+const checkLandkreisID = require('../modules/validation/checkLandkreisID');
 
 router.get('/',(req,res)=>{
-    res.header("Content-Type", contenttype);
-
-    function Inhalt(titel, link) {
-        this.titel = titel;
-        this.link = link;
-    }
-    let inhalt = [];
-
-    inhalt.push(new Inhalt('Retrospektive Bundesweit', 'bundesweit'));
-    inhalt.push(new Inhalt('Retrospektive Bundesland', 'bundesland'));
-    inhalt.push(new Inhalt('Retrospektive Landkreis', 'landkreis'));
-
-    const parsed = ST.select({"items": inhalt})
-        .transformWith({
-            "{{#each items}}": {
-                "Titel": "{{this.titel}}",
-                "_links": {
-                    "self": {"href": "/retro/{{this.link}}"}
-                }
-            }
-        })
-        .root();
-    res.send(parsed);
+    getRetroHome()
+        .then(array => parsedSimpleIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
 });
 
 router.get('/landkreis',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
-
-    getLandkreise((array)=>{
-
-        const parsed = ST.select({"items": array})
-            .transformWith({
-                "{{#each items}}": {
-                    "Landkreis": "{{this.Landkreis}}", "IDLandkreis": "{{this.IdLandkreis}}",
-                    "_links": {
-                        "self": {"href": "/retro/landkreis/{{IdLandkreis}}"}
-                    }
-                }
-            })
-            .root();
-        res.send(parsed);
-
-    });
+    getLandkreise()
+        .then(array => parsedLandkreisIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
 });
 
+router.get('/landkreis/:id',(req,res)=>{
+    checkLandkreisID(req.params.id)
+        .then(landkreisExisting => parsedDatenIndex(daten, `/retro/landkreis/${req.params.id}/`,'/retro/landkreis'))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch(err => res.send(err.toString()))
+});
+
+router.get('/landkreis/:id/:Startdatum',(req,res)=> {
+    checkLandkreisID(req.params.id)
+        .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
+});
 
 router.get('/bundesland',(req,res)=>{
-    res.header("Content-Type", contenttype);
-    const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
+    getBundeslaender()
+        .then(array => parsedBundeslandIndex(array))
+        .then(parsedObjects => res.send(parsedObjects))
+});
 
-    getBundeslaender((array)=>{
+router.get('/bundesland/:id',(req,res)=>{
+    checkBundeslandID(req.params.id)
+        .then(bundeslandExisting => parsedDatenIndex(daten, `/retro/bundesland/${req.params.id}/`,'retro/bundesland'))
+        .then(parsedObjects => res.send(parsedObjects))
+        .catch (err => res.send(err.toString()))
+});
 
-        const parsed = ST.select({"items": array})
-            .transformWith({
-                "{{#each items}}": {
-                    "Bundesland": "{{this.Bundesland}}", "IDBundesland": "{{this.IdBundesland}}",
-                    "_links": {
-                        "self": {"href": "/retro/bundesland/{{IdBundesland}}"}
-                    }
-                }
-            })
-            .root();
-        res.send(parsed);
+router.get('/bundesland/:id/:Startdatum',(req,res)=> {
+    checkBundeslandID(req.params.id)
+        .then(bundeslandExisting => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
+});
 
-    });
+router.get('/bundesweit',(req,res)=>{
+    parsedDatenIndex(daten, `/retro/bundesweit/`,'/retro')
+        .then (parsedObjects => res.send(parsedObjects))
+});
+
+router.get('/bundesweit/:id',(req,res)=>{
+    checkDatumID(req.params.id,daten)
+        .then(datumscheck => res.send("Hier fehlt Thomas."))
+        .catch(err => res.send(err.toString()))
 });
 
 module.exports = router;
