@@ -47,40 +47,74 @@
      - Prognosewert:
             prog = wenn ts1u2u3 <=0 dann mwn sonst mwp
  */
-function prognose (typ, typID) {
+// function prognose (typ, typID) {
+//
+//     const getDate = require('./getDate');
+//     const getNewZombies = require('./rkiapimodules/getNewZombies')
+//     const getINFuINZ = require('./calcModules/getINFuINZ')
+//     const startdatum = getDate(0);
+//
+//     const m = 4;
+//     let enddatum = [getDate(-35),getDate(-28),getDate(-21),getDate(-14),getDate(-7),getDate(0)];
+//     let inf = [4,3,2,1,0];
+//     let inz = [4,3,2,1,0];
+//
+//     function INFuINZ() {
+//         for (let i = 0; i < 5; i++) {
+//                // inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+//                // inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+//
+//
+//                 inf[i] = getNewZombies(typ, enddatum[i], enddatum[i+1], typID)
+//                     .then(ergebnis => )
+//
+//                 inz[i] = inz[i]/272022*100000;
+//                 console.log(inf[i]+' '+inz[i])
+//             }
+//         }
+//         return inf + inz;
+//
+//
+//     INFuINZ();
+//     console.log(inf);
+//     console.log(inz);
+//
+//     return inf + inz;
+// }
+// var prog = prognose(1, '05374');
+// console.log(prog)
 
-    const getDate = require('./getDate');
-    const getNewZombies = require('./rkiapimodules/getNewZombies')
-    const getINFuINZ = require('./calcModules/getINFuINZ')
-    const startdatum = getDate(0);
+//const dateCalc = require('./calcModules/dateCalc');
+const getNewZombies = require('./rkiapimodules/getNewZombies');
+const getPopulation = require('./rkiapimodules/getPopulation');
+const getDate = require('./getDate');
+//const getINFuINZ = require('./calcModules/getINFuINZ');
+const m = 4;
 
-    const m = 4;
-    let enddatum = [getDate(-35),getDate(-28),getDate(-21),getDate(-14),getDate(-7),getDate(0)];
-    let inf = [4,3,2,1,0];
-    let inz = [4,3,2,1,0];
+    //Function call with "typ" of Region, startdatum, typID = ID of Region
+async function prognose(typ, date, typID) {
 
-    function INFuINZ() {
-        for (let i = 0; i < 5; i++) {
-               // inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
-               // inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+    let inf = [];
+    let inz = [];
+  //  let enddatum = [dateCalc(date,-35), dateCalc(date,-28),dateCalc(date,-21),dateCalc(date,-14),dateCalc(date,-7),dateCalc(date,0)];
+    let enddatum = [getDate(-35),
+                    getDate(-28),
+                    getDate(-21),
+                    getDate(-14),
+                    getDate(-7),
+                    getDate(+0)]
 
+    // for(let i = 1; i <10; i++){
+    //     inf[i] = await getNewZombies(1, getDate(i*-1), getDate(i*-1), '13003');
+    //     console.log(getDate(i*-1)+' '+inf[i]);
+    // }
+    for(let i=0; i<5;i++) {
+       inf[i] = await getNewZombies(1, enddatum[i], enddatum[i+1],'13003');
 
-                inf[i] = getNewZombies(typ, enddatum[i], enddatum[i+1], typID)
-                    .then(ergebnis => )
+       inz[i] = inf[i] / getPopulation(typ, typID) * 100000;
+    }
+    console.log('Infizierte: '+inf);
+    console.log('Inzidenz: '+inz);
 
-                inz[i] = inz[i]/272022*100000;
-                console.log(inf[i]+' '+inz[i])
-            }
-        }
-        return inf + inz;
-
-
-    INFuINZ();
-    console.log(inf);
-    console.log(inz);
-
-    return inf + inz;
 }
-var prog = prognose(1, '05374');
-console.log(prog)
-
+prognose(1,'2021-02-16',13003)
