@@ -56,6 +56,17 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
         .catch(err => res.send(err.toString()))
 });
 
+router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
+    let neuesArray = getStartDatesVar(req.params.Startdatum)
+    console.log(neuesArray);
+    checkLandkreisID(req.params.id)
+        .then(datumscheck2 => checkDatumID(req.params.Startdatum, daten))
+        .then(datumscheck2 => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(diesdas => parsedDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}`))
+        .then(parsedObjects => res.send("Hier fehlt Thomas"))
+        .catch(err => res.send(err.toString()))
+});
+
 router.get('/bundesland',(req,res)=>{
     getBundeslaender()
         .then(array => parsedBundeslandIndex(array))
