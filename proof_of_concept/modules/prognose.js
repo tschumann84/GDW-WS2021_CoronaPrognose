@@ -164,3 +164,5 @@ async function prognose(typ, date, typID) {
 
 }
 prognose(1,'2021-02-16','13003')
+
+modules.exports = prognose
