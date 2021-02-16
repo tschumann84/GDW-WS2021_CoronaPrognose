@@ -1,9 +1,9 @@
 const http = require(`http`);
 const fs = require('fs');
 const express = require('express');
-const save_data = require('./modules/save_data');
-const today = require('./modules/today');
-const logd = require('./modules/logd');
+const save_data = require('./modules/legacy/save_data');
+const today = require('./modules/legacy/today');
+const logd = require('./modules/legacy/logd');
 
 const app = express();
 const kza = "kennzahlenarchiv";

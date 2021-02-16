@@ -34,7 +34,7 @@ router.get('/',(req,res)=>{
 
 router.get('/landkreis',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const getLandkreise = require('../modules/getLandkreise');
+    const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
 
     getLandkreise((array)=>{
 
@@ -56,7 +56,7 @@ router.get('/landkreis',(req,res)=>{
 
 router.get('/bundesland',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const getBundeslaender = require('../modules/getBundeslaender');
+    const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
 
     getBundeslaender((array)=>{
 

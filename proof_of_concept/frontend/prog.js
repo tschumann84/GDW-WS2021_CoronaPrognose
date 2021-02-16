@@ -1,239 +1,109 @@
 const express = require('express');
 const router = express.Router()
 const contenttype = 'application/hal+json';
-const ST = require('stjs');
+
+//Templates
+const parsedSimpleIndex = require('../modules/parsingTemplates/prog/parsedSimpleIndex');
+const parsedLandkreisIndex = require('../modules/parsingTemplates/prog/parsedLandkreisIndex');
+const parsedBundeslandIndex = require('../modules/parsingTemplates/prog/parsedBundeslandIndex');
+const parsedDatenIndex = require('../modules/parsingTemplates/prog/parsedDatenIndex');
+
+//Ressourcen
+const getProgHome = require('../modules/getProgHome');
+const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
+const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
 const getStartDates = require('../modules/getStartDates');
 let daten = getStartDates();
 
-
-
+//Vaildation
+const checkBundeslandID = require('../modules/validation/checkBundeslandID');
+const checkDatumID = require('../modules/validation/checkDatumID');
+const checkLandkreisID = require('../modules/validation/checkLandkreisID');
 
 router.get('/',(req,res)=>{
     res.header("Content-Type", contenttype);
-
-    function Inhalt(titel, link) {
-        this.titel = titel;
-        this.link = link;
-    }
-    let inhalt = [];
-
-    inhalt.push(new Inhalt('Prognose Bundesweit', 'bundesweit'));
-    inhalt.push(new Inhalt('Prognose Bundesland', 'bundesland'));
-    inhalt.push(new Inhalt('Prognose Landkreis', 'landkreis'));
-
-    const parsed = ST.select({"items": inhalt})
-        .transformWith({
-            "{{#each items}}": {
-                "Titel": "{{this.titel}}",
-                "_links": {
-                    "self": {"href": "/prog/{{this.link}}"}
-                }
-            }
-        })
-        .root();
-    res.send(parsed);
+    getProgHome((inhalt)=>{
+        parsedSimpleIndex(inhalt, (parsed)=>{res.send(parsed);})
+    })
 });
 
 router.get('/landkreis',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const getLandkreise = require('../modules/getLandkreise');
-
     getLandkreise((array)=>{
-
-        const parsed = ST.select({"items": array})
-            .transformWith({
-                "{{#each items}}": {
-                    "Landkreis": "{{this.Landkreis}}", "IDLandkreis": "{{this.IdLandkreis}}",
-                    "_links": {
-                        "self": {"href": "/prog/landkreis/{{IdLandkreis}}"}
-                    }
-                }
-            })
-            .root();
-        res.send(parsed);
-
+        parsedLandkreisIndex(array, (parsed)=>{res.send(parsed);})
     });
 });
+
 router.get('/landkreis/:id',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const parsed = ST.select({"items": daten})
-        .transformWith({
-            "{{#each items}}": {
-                "Startdatum": "{{this}}",
-                "_links": {
-                    "self": {"href": "/prog/landkreis/{{this}}"}
-                }
-            }
-        })
-        .root();
-    const getLandkreise = require('../modules/getLandkreise');
-    getLandkreise((array) =>{
-        let sended = false;
-        for (let i = 0; i < array.length; i++){
-            if (req.params.id == array[i].IdLandkreis){
-                sended=true;
-                let idLandkreis = array[i].IdLandkreis;
-                const parsed = ST.select({"items": daten})
-                    .transformWith({
-                        "{{#each items}}": {
-                            "Startdatum": "{{this}}",
-                            "_links": {
-                                "self": {"href": "/prog/landkreis/"+ idLandkreis +"/{{this}}"}
-                            }
-                        }
-                    })
-                    .root();
-                res.send(parsed);
-            }
+
+    checkLandkreisID(req.params.id, (landkreisExisting)=>{
+        if(landkreisExisting){
+            parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis',(parsed)=>{res.send(parsed);})
         }
-        if (sended === false){
+        else {
             res.status(400).send('Error 400');
         }
-    });
+    })
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
-    const getLandkreise = require('../modules/getLandkreise');
-    getLandkreise((array) => {
-        let sended = false;
-        for (let i = 0; i < array.length; i++) {
-            if (req.params.id == array[i].IdLandkreis) {
-                sended = true;
-                let sended2 = false;
-                for (let i = 0; i < daten.length; i++){
-                    if (req.params.Startdatum === daten[i]){
-                        sended2=true;
-                        res.send("richtig");
-                    }
-                }
-                if (sended2 === false){
-                    res.status(400).send('Error 400');
-                }
-
-                }
+    checkLandkreisID(req.params.id, (landkreisExisting)=>{
+        if(landkreisExisting && checkDatumID(req.params.Startdatum,daten)){
+            res.send("Hier fehlt Thomas. ");
         }
-        if (sended === false) {
-            res.status(400).send('Error 400');
+        else {
+            res.status(400).send('Ressource nicht vorhanden.');
         }
-    });
+    })
 });
-
-
 
 router.get('/bundesland',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const getBundeslaender = require('../modules/getBundeslaender');
 
     getBundeslaender((array)=>{
-
-        const parsed = ST.select({"items": array})
-            .transformWith({
-                "{{#each items}}": {
-                    "Bundesland": "{{this.Bundesland}}", "IDBundesland": "{{this.IdBundesland}}",
-                    "_links": {
-                        "self": {"href": "/prog/bundesland/{{IdBundesland}}"}
-                    }
-                }
-            })
-            .root();
-        res.send(parsed);
-
+        parsedBundeslandIndex(array, (parsed)=>{res.send(parsed);})
     });
 });
 
 router.get('/bundesland/:id',(req,res)=>{
     res.header("Content-Type", contenttype);
-    const parsed = ST.select({"items": daten})
-        .transformWith({
-            "{{#each items}}": {
-                "Startdatum": "{{this}}",
-                "_links": {
-                    "self": {"href": "/prog/bundesland/{{this}}"}
-                }
-            }
-        })
-        .root();
-    const getBundeslaender = require('../modules/getBundeslaender');
-    getBundeslaender((array) =>{
-        let sended = false;
-        for (let i = 0; i < array.length; i++){
-            if (req.params.id == array[i].IdBundesland){
-                sended=true;
-                let idBundesland = array[i].IdBundesland;
-                const parsed = ST.select({"items": daten})
-                    .transformWith({
-                        "{{#each items}}": {
-                            "Startdatum": "{{this}}",
-                            "_links": {
-                                "self": {"href": "/prog/bundesland/"+ idBundesland +"/{{this}}"}
-                            }
-                        }
-                    })
-                    .root();
-                res.send(parsed);
-            }
+
+    checkBundeslandID(req.params.id, (bundeslandExisting)=>{
+        if(bundeslandExisting){
+            parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'prog/bundesland',(parsed)=>{res.send(parsed);})
         }
-        if (sended === false){
-            res.status(400).send('Error 400');
+        else {
+            res.status(400).send('Ressource nicht verfügbar.');
         }
-    });
+    })
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
-    const getBundeslaender = require('../modules/getBundeslaender');
-    getBundeslaender((array) => {
-        let sended = false;
-        for (let i = 0; i < array.length; i++) {
-            if (req.params.id == array[i].IdBundesland) {
-                sended = true;
-                let sended2 = false;
-                for (let i = 0; i < daten.length; i++){
-                    if (req.params.Startdatum === daten[i]){
-                        sended2=true;
-                        res.send("richtig");
-                    }
-                }
-                if (sended2 === false){
-                    res.status(400).send('Error 400');
-                }
-
-            }
+    checkBundeslandID(req.params.id, (bundeslandExisting)=>{
+        if(bundeslandExisting && checkDatumID(req.params.Startdatum,daten)){
+            res.send("Hier fehlt Thomas. ");
         }
-        if (sended === false) {
-            res.status(400).send('Error 400');
+        else {
+            res.status(400).send('Ressource nicht vorhanden.');
         }
-    });
+    })
 });
-
 
 router.get('/bundesweit',(req,res)=>{
     res.header("Content-Type", contenttype);
-        const parsed = ST.select({"items": daten})
-            .transformWith({
-                "{{#each items}}": {
-                    "Startdatum": "{{this}}",
-                    "_links": {
-                        "self": {"href": "/prog/bundesweit/{{this}}"}
-                    }
-                }
-            })
-            .root();
-        res.send(parsed);
-    });
+    parsedDatenIndex(daten, `/prog/bundesweit/`,'/prog',(parsed)=>{res.send(parsed);})
+});
 
 router.get('/bundesweit/:id',(req,res)=>{
     res.header("Content-Type", contenttype);
-    let sended = false;
-    for (let i = 0; i < daten.length; i++){
-        if (req.params.id === daten[i]){
-            sended=true;
-            res.send("richtig");
-        }
+
+    if(checkDatumID(req.params.id,daten)){
+        res.send("Hier fehlt Thomas.");
     }
-    if (sended === false){
-        res.status(400).send('Error 400');
+    else {
+        res.status(400).send('Ressource nicht vorhanden.');
     }
 });
-
 
 module.exports = router;
