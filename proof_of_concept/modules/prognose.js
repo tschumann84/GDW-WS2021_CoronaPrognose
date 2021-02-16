@@ -47,24 +47,35 @@
      - Prognosewert:
             prog = wenn ts1u2u3 <=0 dann mwn sonst mwp
  */
-function prognose (typ, typID, callback) {
+function prognose (typ, typID) {
 
     const getDate = require('./getDate');
-    const getNewZombies = require('./getNewZombies')
+    const getNewZombies = require('./rkiapimodules/getNewZombies')
+    const getINFuINZ = require('./calcModules/getINFuINZ')
     const startdatum = getDate(0);
 
     const m = 4;
-    var enddatum = [getDate(-35),getDate(-28),getDate(-21),getDate(-14),getDate(-7),getDate(0)];
-    var inf = [4,3,2,1,0];
-    var inz = [4,3,2,1,0];
+    let enddatum = [getDate(-35),getDate(-28),getDate(-21),getDate(-14),getDate(-7),getDate(0)];
+    let inf = [4,3,2,1,0];
+    let inz = [4,3,2,1,0];
 
-    for (let i = 0; i < 5; i++) {
-        getNewZombies(typ, enddatum[i], enddatum[i+1], typID, (callback) => { inf[i] = callback} );
-        getNewZombies(typ, enddatum[i], enddatum[i+1], typID, (callback) => { inz[i] }
-        );
-     //   inz[i] = inz[i]/272022*100000;
-    }
-    console.log(inf)
-    console.log(inz)
+    function INFuINZ() {
+        for (let i = 0; i < 5; i++) {
+                inf[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+                inz[i] = getINFuINZ(typ, enddatum[i], enddatum[i + 1], typID);
+                inz[i] = inz[i]/272022*100000;
+                console.log(inf[i]+' '+inz[i])
+            }
+        }
+        return inf + inz;
+
+
+    INFuINZ();
+    console.log(inf);
+    console.log(inz);
+
+    return inf + inz;
 }
-prognose(1, '05374');
+var prog = prognose(1, '05374');
+console.log(prog)
+

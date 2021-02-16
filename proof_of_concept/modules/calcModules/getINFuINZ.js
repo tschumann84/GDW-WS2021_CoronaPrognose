@@ -22,13 +22,13 @@ getINFuINZperDate gibt die Anzahl der Infizierten und den Inzidenz Wert für die
 
  */
 
-function getINFuINZ(typ, startdatum, enddatum, typID, callback) {
+function getINFuINZ(typ, startdatum, enddatum, typID) {
 
     const https = require('https');
     const URI = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?'
-    const sum = `&outStatistics=[{"statisticType": "sum","onStatisticField": "AnzahlFall","outStatisticFieldName": "SumAnzahlFall"}]`
+    const sum = `&outStatistics=[{"statisticType": "sum","onStatisticField": "AnzahlFall","outStatisticFieldName": "sumAnzahlFall"}]`;
     const date = `where=Meldedatum >= TIMESTAMP '${startdatum} 00:00:00' AND Meldedatum <= TIMESTAMP '${enddatum} 23:59:59'`
-    const out = '&outFields=*&f=json'
+    const out = '&outFields=*&f=json';
 
     let filters;
 
@@ -46,16 +46,23 @@ function getINFuINZ(typ, startdatum, enddatum, typID, callback) {
 
     const request = URI+encodeURI(filters+sum+out)
 
+
     https.get(request, (res) => {
         let body = "";
 
         res.on("data", (chunk) => {
             body += chunk;
-        })
-
+        });
         res.on("end", () => {
             let parsedData = JSON.parse(body);
-            callback(parseInt(parsedData.features[0].attributes.SumAnzahlFall));
-        })
-    })
+            let summe = parseInt(parsedData.features[0].attributes.sumAnzahlFall);
+            console.log('returnwert: '+summe)
+            return summe;
+        });
+    });
 }
+
+let summe = getINFuINZ(1,'2021-02-08','2021-02-14','05374');
+console.log('Letzte Summe: '+summe)
+
+module.exports = getINFuINZ;
