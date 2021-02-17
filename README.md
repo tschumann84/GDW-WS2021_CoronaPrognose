@@ -4,7 +4,6 @@ Werner ist Außendienstmitarbeiter. Wie auch viele andere Berufstätige ist er d
 ## Projektidee
 **Eine API die nachfolgende Informationen zur Verfügung stellt:**
 * Inzidenzentwicklung über einen bestimmten Zeitraum 
-* Prognose die Ansteckungsgefahr
 * An-/ bzw. Abstieg der Infektionszahlen
 * Prognoseampel / potentielles Ansteckungsrisiko
 
