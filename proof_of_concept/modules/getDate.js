@@ -1,4 +1,6 @@
 //Gibt ein String eines Datums aus, welches entweder +x Tage in der Zukunft liegt oder -x Tage in der Vergangenheit
+
+
 function getDate(tage){
     let MyDate = new Date();
     let MyDateString;

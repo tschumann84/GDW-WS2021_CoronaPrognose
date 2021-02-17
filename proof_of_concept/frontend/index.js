@@ -10,5 +10,5 @@ app.use('/prog', prog);
 app.use('/retro', retro);
 
 //Port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 app.listen(port, ()=> console.log(`Listening on Port ${port}`));

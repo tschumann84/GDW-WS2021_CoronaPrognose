@@ -207,7 +207,10 @@ async function prognose(typ, date, typID) {
         this.inzidenz = inzidenz
         this.ampel = ampel
     }
-    return(new Back(infizierte, inzidenz, ampel));
+
+    let array = []
+    array.push(new Back(infizierte, inzidenz, ampel))
+    return(array);
 }
 prognose(1,'2021-01-01','13003')
     .then(ergebnis => {console.log(ergebnis)})

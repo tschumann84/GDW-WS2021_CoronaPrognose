@@ -39,7 +39,7 @@ router.get('/landkreis/:id',(req,res)=>{
     checkLandkreisID(req.params.id)
         .then(landkreisExisting => parsedDatenIndex(daten, `/retro/landkreis/${req.params.id}/`,'/retro/landkreis'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
@@ -48,7 +48,7 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
         .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
@@ -61,7 +61,7 @@ router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
                 .then( object => parsedRetroNumbers(object, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
         })
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland',(req,res)=>{
@@ -74,7 +74,7 @@ router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
         .then(bundeslandExisting => parsedDatenIndex(daten, `/retro/bundesland/${req.params.id}/`,'retro/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch (err => res.send(err.toString()))
+        .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
@@ -83,7 +83,7 @@ router.get('/bundesland/:id/:Startdatum',(req,res)=> {
         .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
@@ -96,7 +96,7 @@ router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
                 .then( object => parsedRetroNumbers(object, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
         })
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesweit',(req,res)=>{
@@ -109,7 +109,7 @@ router.get('/bundesweit/:Startdatum',(req,res)=> {
     checkDatumID(req.params.Startdatum,daten)
         .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
@@ -121,7 +121,7 @@ router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
                 .then( object => parsedRetroNumbers(object, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
         })
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 module.exports = router;

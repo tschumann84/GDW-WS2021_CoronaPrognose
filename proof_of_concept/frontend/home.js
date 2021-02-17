@@ -11,6 +11,7 @@ router.get('/*',(req,res,next) => {
     next();
 });
 
+
 router.get('/',(req,res)=>{
     res.header("Content-Type", contenttype);
     getHome()

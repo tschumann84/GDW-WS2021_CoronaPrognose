@@ -6,12 +6,14 @@ const parsedSimpleIndex = require('../modules/parsingTemplates/prog/parsedSimple
 const parsedLandkreisIndex = require('../modules/parsingTemplates/prog/parsedLandkreisIndex');
 const parsedBundeslandIndex = require('../modules/parsingTemplates/prog/parsedBundeslandIndex');
 const parsedDatenIndex = require('../modules/parsingTemplates/prog/parsedDatenIndex');
+const parsedPrognose = require('../modules/parsingTemplates/prog/parsedPrognose');
 
 //Ressourcen
 const getProgHome = require('../modules/getProgHome');
 const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
 const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
 const getStartDates = require('../modules/getStartDates');
+const prognose = require('../modules/prognose');
 let daten = getStartDates();
 
 //Vaildation
@@ -35,14 +37,16 @@ router.get('/landkreis/:id',(req,res)=>{
     checkLandkreisID(req.params.id)
         .then(landkreisExisting => parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.send(err.toString()))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     checkLandkreisID(req.params.id)
         .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
-        .catch(err => res.send(err.toString()))
+        .then(datumscheck => prognose(1,req.params.Startdatum,req.params.id))
+        .then(prognose => parsedPrognose(prognose,`/prog/landkreis/${req.params.id}/${req.params.Startdatum}`,`/prog/landkreis/${req.params.id}/`))
+        .then(parsedPrognose => res.send(parsedPrognose))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland',(req,res)=>{
@@ -55,14 +59,16 @@ router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
         .then(bundeslandExisting => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'prog/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch (err => res.send(err.toString()))
+        .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
     checkBundeslandID(req.params.id)
         .then(bundeslandExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
-        .catch(err => res.send(err.toString()))
+        .then(datumscheck => prognose(2,req.params.Startdatum,req.params.id))
+        .then(prognose => parsedPrognose(prognose,`/prog/bundesland/${req.params.id}/${req.params.Startdatum}`,`/prog/bundesland/${req.params.id}/`))
+        .then(parsedPrognose => res.send(parsedPrognose))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesweit',(req,res)=>{
@@ -70,10 +76,12 @@ router.get('/bundesweit',(req,res)=>{
         .then (parsedObjects => res.send(parsedObjects))
 });
 
-router.get('/bundesweit/:id',(req,res)=>{
-    checkDatumID(req.params.id,daten)
-        .then(datumscheck => res.send("Hier fehlt Thomas."))
-        .catch(err => res.send(err.toString()))
+router.get('/bundesweit/:Startdatum',(req,res)=>{
+    checkDatumID(req.params.Startdatum,daten)
+        .then(datumscheck => prognose(3,req.params.Startdatum,null))
+        .then(prognose => parsedPrognose(prognose,`/prog/bundesweit/${req.params.Startdatum}`,`/prog/bundesweit/`))
+        .then(parsedPrognose => res.send(parsedPrognose))
+        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 module.exports = router;
