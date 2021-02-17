@@ -51,6 +51,7 @@
 const dateCalc = require('./calcModules/calcDate');
 const getNewZombies = require('./rkiapimodules/getNewZombies');
 const getInzidenz = require('./calcModules/calcInzidenz');
+const getDateArray = require('./dateModules/getDateArray');
 // const m = 4;
 
     //Function call with "typ" of Region, startdatum, typID = ID of Region
@@ -58,80 +59,11 @@ async function getPrognose(typ, date, typID) {
     const m = 4;
     let inf = [];
     let inz = [];
-  //  let enddatum = [dateCalc(date,-35), dateCalc(date,-28),dateCalc(date,-21),dateCalc(date,-14),dateCalc(date,-7),dateCalc(date,0)];
-    const x = new Date(date);
-    console.log(x);
-    let j = 0;
 
-    function Datumspaar(anfangsdatum, enddatum){
-        this.anfangsdatum = anfangsdatum;
-        this.enddatum = enddatum;
-    }
-
-    let arrayDatumspaare = [];
-    //initialisierung der arrays
-
-    for(let i = 0; i<=5; i++){
-        await arrayDatumspaare.push(await new Datumspaar(await new Date(x), await new Date(x)));
-        console.log("erzeugt")
-    }
-
-
-for ( let i=-42; i<=-7; i=(i+7)){
-    await subtractDays(x, i)
-        .then(date => addToArray(j, arrayDatumspaare, date))
-    j++
-}
-
-    function addToArray(j, arrayDatumspaare, date){
-        return new Promise((resolve, reject)=> {
-            arrayDatumspaare[j].anfangsdatum.setDate(date)
-            arrayDatumspaare[j].enddatum.setDate(date+6)
-            resolve(arrayDatumspaare[j])
-        })
-    }
-
-    function subtractDays(date, i){
-        return new Promise((resolve, reject)=> {
-            resolve(date.getDate()+i)
-        })
-    }
-
+    //Array mit Daten
+    let arrayDatumspaare = await getDateArray(date)
     console.log(arrayDatumspaare);
-    // Date.prototype.subtractDays = function (d) {
-    //     this.setTime (this.getTime()-(d*24*60*60*1000));
-    //     return this;
-    // }
 
-    // for (let i=-35; i<=0; i=(i+7)) {
-    //     enddatum[j]= x.subtractDays(7);
-    //     j++;
-    // }
-    // enddatum[0] = x.subtractDays(7);
-    // enddatum[1] = x.subtractDays(7);
-
-    // enddatum[0].subtractDays(7);
-
-    // for (let i=-35; i<=0; i=i+7){
-    //     console.log(i+ ' <i j> '+j)
-    //     // enddatum[j] = (x.getDate()+i);
-    //     enddatum[j] = await [new Date()];
-    //     await enddatum[j].setDate(X.getDate()+i);
-    //     j++;
-    // }
-
-
-    // let enddatum = [getDate(-35),
-    //                 getDate(-28),
-    //                 getDate(-21),
-    //                 getDate(-14),
-    //                 getDate(-7),
-    //                 getDate(+0)]
-
-    // for(let i = 1; i <10; i++){
-    //     inf[i] = await getNewZombies(1, getDate(i*-1), getDate(i*-1), '13003');
-    //     console.log(getDate(i*-1)+' '+inf[i]);
-    // }
     for(let i=0; i<5;i++) {
        inf[i] = await getNewZombies(typ, dateCalc(arrayDatumspaare[i].anfangsdatum), dateCalc(arrayDatumspaare[i].enddatum), typID);
        // let population = await getPopulation(typ, typID);
