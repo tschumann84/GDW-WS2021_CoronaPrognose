@@ -24,7 +24,7 @@ async function getPrognose(typ, date, typID) {
     let ampelWert = [35,70,105];
 
     if (inzidenz <= ampelWert[0]) {
-        ampel = '#00FF00';
+        ampel = '#00ff00';
     } else {
         if (inzidenz <= ampelWert[1]) {
             ampel = '#ffff00';
