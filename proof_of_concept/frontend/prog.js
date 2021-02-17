@@ -57,7 +57,7 @@ router.get('/bundesland',(req,res)=>{
 
 router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
-        .then(bundeslandExisting => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'prog/bundesland'))
+        .then(bundeslandExisting => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'/prog/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
         .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
