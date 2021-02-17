@@ -42,6 +42,6 @@ function subtractDays(date, i){
     })
 }
 
-getDateArray(new Date('2020-12-28'))
-    .then(result => console.log(result))
+//getDateArray(new Date('2020-12-28'))
+//    .then(result => console.log(result))
 module.exports = getDateArray

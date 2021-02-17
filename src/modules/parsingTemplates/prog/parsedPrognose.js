@@ -5,7 +5,7 @@ function parsedPrognose(array, link, parent) {
         const parsed = ST.select({"items": array})
             .transformWith({
                 "{{#each items}}": {
-                    "Warnung": "Bei der folgenden Ressource handelt es sich um eine selbst erstellte Prognose. Grundlage der Berechnung ist die Romberg Integration.",
+                    "Warnung": "Bei der folgenden Ressource handelt es sich um eine selbst erstellte Prognose. Grundlage der Berechnung ist die Methode der kleinsten quadratischen Abweichung bei linearer Zeitabhängigkeit einer Größe",
                     "Infizierte": "{{this.infizierte}}",
                     "Inzidenz": "{{this.inzidenz}}",
                     "Ampel": "{{this.ampel}}",
