@@ -1,5 +1,5 @@
 // Funktion gibt das übergebene Datum +/- Tage im Format YYYY-mm-dd zurück.
-function dateCalc(datum){
+function calcDate(datum){
     let MyDate = datum;
     let MyDateString;
 
@@ -17,5 +17,5 @@ function dateCalc(datum){
     return(MyDateString);
 
 }
-// console.log(dateCalc('16.02.2021', -3));
-module.exports = dateCalc;
+// console.log(calcDate('16.02.2021', -3));
+module.exports = calcDate;

@@ -1,6 +1,6 @@
 const getPopulation = require('../rkiapimodules/getPopulation')
 
-function getInzidenz(inf, typ, typID) {
+function calcInzidenz(inf, typ, typID) {
     return new Promise ((resolve, reject) => {
         getPopulation(typ, typID)
             .then(ergebnis =>  {
@@ -12,13 +12,13 @@ function getInzidenz(inf, typ, typID) {
         // resolve(inzidenz);
     })
 }
-// let wert = getInzidenz(300, 1, '05374');
+// let wert = calcInzidenz(300, 1, '05374');
 // console.log(wert);
 
-// function getInzidenz(population){
+// function calcInzidenz(population){
 //     return new Promise ((resolve, reject) => {
 //         let inzidenz = ((parseInt(parsedData.features[0].attributes.summiertAnzahlFall)) / population) * 100000
 //         resolve(inzidenz);
 //     })
 // }
-module.exports = getInzidenz;
+module.exports = calcInzidenz;

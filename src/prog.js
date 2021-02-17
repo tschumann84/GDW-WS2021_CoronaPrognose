@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 
 //Templates
-const parsedSimpleIndex = require('../modules/parsingTemplates/prog/parsedSimpleIndex');
-const parsedLandkreisIndex = require('../modules/parsingTemplates/prog/parsedLandkreisIndex');
-const parsedBundeslandIndex = require('../modules/parsingTemplates/prog/parsedBundeslandIndex');
-const parsedDatenIndex = require('../modules/parsingTemplates/prog/parsedDatenIndex');
-const parsedPrognose = require('../modules/parsingTemplates/prog/parsedPrognose');
+const parsedSimpleIndex = require('./modules/parsingTemplates/prog/parsedSimpleIndex');
+const parsedLandkreisIndex = require('./modules/parsingTemplates/prog/parsedLandkreisIndex');
+const parsedBundeslandIndex = require('./modules/parsingTemplates/prog/parsedBundeslandIndex');
+const parsedDatenIndex = require('./modules/parsingTemplates/prog/parsedDatenIndex');
+const parsedPrognose = require('./modules/parsingTemplates/prog/parsedPrognose');
 
 //Ressourcen
-const getProgHome = require('../modules/getProgHome');
-const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
-const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
-const getStartDates = require('../modules/getStartDates');
-const prognose = require('../modules/prognose');
+const getProgHome = require('./modules/staticdata/getProgHome');
+const getLandkreise = require('./modules/rkiapimodules/getLandkreise');
+const getBundeslaender = require('./modules/rkiapimodules/getBundeslaender');
+const getStartDates = require('./modules/dateModules/getStartDates');
+const getPrognose = require('./modules/getPrognose');
 let daten = getStartDates();
 
 //Vaildation
-const checkBundeslandID = require('../modules/validation/checkBundeslandID');
-const checkDatumID = require('../modules/validation/checkDatumID');
-const checkLandkreisID = require('../modules/validation/checkLandkreisID');
+const checkBundeslandID = require('./modules/validation/checkBundeslandID');
+const checkDatumID = require('./modules/validation/checkDatumID');
+const checkLandkreisID = require('./modules/validation/checkLandkreisID');
 
 router.get('/',(req,res)=>{
     getProgHome()
@@ -43,7 +43,7 @@ router.get('/landkreis/:id',(req,res)=>{
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     checkLandkreisID(req.params.id)
         .then(() => checkDatumID(req.params.Startdatum, daten))
-        .then(() => prognose(1,req.params.Startdatum,req.params.id))
+        .then(() => getPrognose(1,req.params.Startdatum,req.params.id))
         .then(prognose => parsedPrognose(prognose,`/prog/landkreis/${req.params.id}/${req.params.Startdatum}`,`/prog/landkreis/${req.params.id}/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
@@ -65,7 +65,7 @@ router.get('/bundesland/:id',(req,res)=>{
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
     checkBundeslandID(req.params.id)
         .then(() => checkDatumID(req.params.Startdatum, daten))
-        .then(() => prognose(2,req.params.Startdatum,req.params.id))
+        .then(() => getPrognose(2,req.params.Startdatum,req.params.id))
         .then(prognose => parsedPrognose(prognose,`/prog/bundesland/${req.params.id}/${req.params.Startdatum}`,`/prog/bundesland/${req.params.id}/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
@@ -78,7 +78,7 @@ router.get('/bundesweit',(req,res)=>{
 
 router.get('/bundesweit/:Startdatum',(req,res)=>{
     checkDatumID(req.params.Startdatum,daten)
-        .then(() => prognose(3,req.params.Startdatum,null))
+        .then(() => getPrognose(3,req.params.Startdatum,null))
         .then(prognose => parsedPrognose(prognose,`/prog/bundesweit/${req.params.Startdatum}`,`/prog/bundesweit/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))

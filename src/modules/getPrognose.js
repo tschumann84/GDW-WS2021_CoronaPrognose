@@ -48,13 +48,13 @@
             prog = wenn ts1u2u3 <=0 dann mwn sonst mwp
 */
 
-const dateCalc = require('./calcModules/dateCalc');
+const dateCalc = require('./calcModules/calcDate');
 const getNewZombies = require('./rkiapimodules/getNewZombies');
-const getInzidenz = require('./calcModules/getInzidenz');
+const getInzidenz = require('./calcModules/calcInzidenz');
 // const m = 4;
 
     //Function call with "typ" of Region, startdatum, typID = ID of Region
-async function prognose(typ, date, typID) {
+async function getPrognose(typ, date, typID) {
     const m = 4;
     let inf = [];
     let inz = [];
@@ -234,7 +234,7 @@ for ( let i=-42; i<=-7; i=(i+7)){
     array.push(new Back(infizierte, inzidenz, ampel))
     return(array);
 }
-prognose(1,'2021-01-30','13003')
+getPrognose(1,'2021-01-30','13003')
     .then(ergebnis => {console.log(ergebnis)})
 
-module.exports = prognose
+module.exports = getPrognose

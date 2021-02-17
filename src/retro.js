@@ -2,26 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 //Templates
-const parsedSimpleIndex = require('../modules/parsingTemplates/retro/parsedSimpleIndex');
-const parsedLandkreisIndex = require('../modules/parsingTemplates/retro/parsedLandkreisIndex');
-const parsedBundeslandIndex = require('../modules/parsingTemplates/retro/parsedBundeslandIndex');
-const parsedDatenIndex = require('../modules/parsingTemplates/retro/parsedDatenIndex');
-const parsedEndDatenIndex = require('../modules/parsingTemplates/retro/parsedEndDatenIndex');
-const parsedRetroNumbers = require('../modules/parsingTemplates/retro/parsedRetroNumbers');
+const parsedSimpleIndex = require('./modules/parsingTemplates/retro/parsedSimpleIndex');
+const parsedLandkreisIndex = require('./modules/parsingTemplates/retro/parsedLandkreisIndex');
+const parsedBundeslandIndex = require('./modules/parsingTemplates/retro/parsedBundeslandIndex');
+const parsedDatenIndex = require('./modules/parsingTemplates/retro/parsedDatenIndex');
+const parsedEndDatenIndex = require('./modules/parsingTemplates/retro/parsedEndDatenIndex');
+const parsedRetroNumbers = require('./modules/parsingTemplates/retro/parsedRetroNumbers');
 
 //Ressourcen
-const getRetroHome = require('../modules/getRetroHome');
-const getLandkreise = require('../modules/rkiapimodules/getLandkreise');
-const getBundeslaender = require('../modules/rkiapimodules/getBundeslaender');
-const getStartDates = require('../modules/getStartDates');
-const getStartDatesVar = require('../modules/getStartDatesVar');
-const getRetroNumbers = require('../modules/rkiapimodules/getRetroNumbers');
+const getRetroHome = require('./modules/staticdata/getRetroHome');
+const getLandkreise = require('./modules/rkiapimodules/getLandkreise');
+const getBundeslaender = require('./modules/rkiapimodules/getBundeslaender');
+const getStartDates = require('./modules/dateModules/getStartDates');
+const getStartDatesVar = require('./modules/dateModules/getStartDatesVar');
+const getRetroNumbers = require('./modules/rkiapimodules/getRetroNumbers');
 let daten = getStartDates();
 
 //Vaildation
-const checkBundeslandID = require('../modules/validation/checkBundeslandID');
-const checkDatumID = require('../modules/validation/checkDatumID');
-const checkLandkreisID = require('../modules/validation/checkLandkreisID');
+const checkBundeslandID = require('./modules/validation/checkBundeslandID');
+const checkDatumID = require('./modules/validation/checkDatumID');
+const checkLandkreisID = require('./modules/validation/checkLandkreisID');
 
 router.get('/',(req,res)=>{
     getRetroHome()
