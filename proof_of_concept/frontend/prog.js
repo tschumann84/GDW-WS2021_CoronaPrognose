@@ -35,15 +35,15 @@ router.get('/landkreis',(req,res)=>{
 
 router.get('/landkreis/:id',(req,res)=>{
     checkLandkreisID(req.params.id)
-        .then(landkreisExisting => parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis'))
+        .then(() => parsedDatenIndex(daten, `/prog/landkreis/${req.params.id}/`,'/prog/landkreis'))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     checkLandkreisID(req.params.id)
-        .then(landkreisExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => prognose(1,req.params.Startdatum,req.params.id))
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => prognose(1,req.params.Startdatum,req.params.id))
         .then(prognose => parsedPrognose(prognose,`/prog/landkreis/${req.params.id}/${req.params.Startdatum}`,`/prog/landkreis/${req.params.id}/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
@@ -57,15 +57,15 @@ router.get('/bundesland',(req,res)=>{
 
 router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
-        .then(bundeslandExisting => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'/prog/bundesland'))
+        .then(() => parsedDatenIndex(daten, `/prog/bundesland/${req.params.id}/`,'/prog/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
         .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
     checkBundeslandID(req.params.id)
-        .then(bundeslandExisting => checkDatumID(req.params.Startdatum, daten))
-        .then(datumscheck => prognose(2,req.params.Startdatum,req.params.id))
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => prognose(2,req.params.Startdatum,req.params.id))
         .then(prognose => parsedPrognose(prognose,`/prog/bundesland/${req.params.id}/${req.params.Startdatum}`,`/prog/bundesland/${req.params.id}/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
@@ -78,7 +78,7 @@ router.get('/bundesweit',(req,res)=>{
 
 router.get('/bundesweit/:Startdatum',(req,res)=>{
     checkDatumID(req.params.Startdatum,daten)
-        .then(datumscheck => prognose(3,req.params.Startdatum,null))
+        .then(() => prognose(3,req.params.Startdatum,null))
         .then(prognose => parsedPrognose(prognose,`/prog/bundesweit/${req.params.Startdatum}`,`/prog/bundesweit/`))
         .then(parsedPrognose => res.send(parsedPrognose))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))

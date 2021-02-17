@@ -37,7 +37,7 @@ router.get('/landkreis',(req,res)=>{
 
 router.get('/landkreis/:id',(req,res)=>{
     checkLandkreisID(req.params.id)
-        .then(landkreisExisting => parsedDatenIndex(daten, `/retro/landkreis/${req.params.id}/`,'/retro/landkreis'))
+        .then(() => parsedDatenIndex(daten, `/retro/landkreis/${req.params.id}/`,'/retro/landkreis'))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
@@ -45,8 +45,8 @@ router.get('/landkreis/:id',(req,res)=>{
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkLandkreisID(req.params.id)
-        .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => parsedEndDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
@@ -54,9 +54,9 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
 router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkLandkreisID(req.params.id)
-        .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => {
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(() => {
             getRetroNumbers(1,req.params.Startdatum, req.params.Enddatum,req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
@@ -72,7 +72,7 @@ router.get('/bundesland',(req,res)=>{
 
 router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
-        .then(bundeslandExisting => parsedDatenIndex(daten, `/retro/bundesland/${req.params.id}/`,'retro/bundesland'))
+        .then(() => parsedDatenIndex(daten, `/retro/bundesland/${req.params.id}/`,'retro/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
         .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
@@ -80,8 +80,8 @@ router.get('/bundesland/:id',(req,res)=>{
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkBundeslandID(req.params.id)
-        .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => parsedEndDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
@@ -89,9 +89,9 @@ router.get('/bundesland/:id/:Startdatum',(req,res)=> {
 router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkBundeslandID(req.params.id)
-        .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
-        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => {
+        .then(() => checkDatumID(req.params.Startdatum, daten))
+        .then(() => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(() => {
             getRetroNumbers(2,req.params.Startdatum, req.params.Enddatum, req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
@@ -107,7 +107,7 @@ router.get('/bundesweit',(req,res)=>{
 router.get('/bundesweit/:Startdatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkDatumID(req.params.Startdatum,daten)
-        .then(returncheckdatum => parsedEndDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
+        .then(() => parsedEndDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
         .then(parsedObjects => res.send(parsedObjects))
         .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
 });
@@ -115,8 +115,8 @@ router.get('/bundesweit/:Startdatum',(req,res)=> {
 router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
     let neuesArray = getStartDatesVar(req.params.Startdatum)
     checkDatumID(req.params.Startdatum,daten)
-        .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
-        .then(returncheckenddatum => {
+        .then(() => checkDatumID(req.params.Enddatum, neuesArray))
+        .then(() => {
             getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
                 .then( object => parsedRetroNumbers(object, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
