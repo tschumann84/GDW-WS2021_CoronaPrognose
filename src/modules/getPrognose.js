@@ -21,7 +21,7 @@ async function getPrognose(typ, date, typID) {
     let inzidenz = await calcQuadro(inz, deep);
 
     let ampel;
-    let ampelWert = [35,70,105];
+    let ampelWert = [35,50,75];
 
     if (inzidenz <= ampelWert[0]) {
         ampel = '#00ff00';
