@@ -1,3 +1,4 @@
+// Diese Funktion prüft, ob das gegebene Datum in der Ressource existiert.
 function checkDatumID(datum, daten){
     return new Promise ((resolve, reject)=>{
         let res = false;

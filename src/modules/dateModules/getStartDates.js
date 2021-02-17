@@ -1,3 +1,4 @@
+//Gibt ein Array mit allen nachfolgenden Daten (vom 01.04.2020) bis zum heutigen Tag aus
 function getStartDates(){
     const getDayCalc = require('./getDayCalc');
 

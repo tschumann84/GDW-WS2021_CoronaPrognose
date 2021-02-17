@@ -1,6 +1,5 @@
+//Gibt die Anzahl neu gemeldeter, Infizierter in einem bestimmten Zeitraum, in einer bestimmten Region aus. Inkl. Inzidenz zurück
 const getPopulation = require('./getPopulation');
-
-//Gibt die Anzahl neu gemeldeter, Infizierter in einem bestimmten Zeitraum, in einer bestimmten Region aus.
 function getRetroNumbers(typ, datumVon, datumBis, regionID){
     return new Promise((resolve, reject) =>{
         // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit

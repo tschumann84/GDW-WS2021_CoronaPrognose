@@ -1,3 +1,4 @@
+//Home Ressource
 function getHome(){
     return new Promise((resolve, reject)=> {
         function Inhalt(titel, link) {

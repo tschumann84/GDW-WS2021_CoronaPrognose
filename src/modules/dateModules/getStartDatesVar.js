@@ -1,3 +1,4 @@
+//Gibt ein Array mit allen nachfolgenden Daten, bis zum heutigen Tag aus.
 function getStartDatesVar(mindate){
     const getDayCalc = require('./getDayCalc');
 

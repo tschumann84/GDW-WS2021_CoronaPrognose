@@ -1,4 +1,3 @@
-
 //Gibt die Anzahl neu gemeldeter, Infizierter in einem bestimmten Zeitraum, in einer bestimmten Region aus.
 function getNewZombies(typ, datumVon, datumBis, regionID){
     return new Promise((resolve, reject) =>{

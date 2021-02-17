@@ -1,3 +1,5 @@
+// Diese Funktion prüft, ob die gegebene Landkreis-ID existiert.
+
 const getLandkreise = require('../rkiapimodules/getLandkreise');
 
 function checkLandkreisID(landkreisID) {

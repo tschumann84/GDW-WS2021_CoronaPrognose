@@ -1,13 +1,7 @@
-// Funktion gibt das übergebene Datum +/- Tage im Format YYYY-mm-dd zurück.
+// Funktion gibt ein Datum Objekt im Format YYYY-mm-dd zurück.
 function calcDate(datum){
     let MyDate = datum;
     let MyDateString;
-
-    // console.log(MyDate)
-
-    // MyDate.setDate(datum+tage);
-
-    // console.log(MyDate)
 
     MyDateString = (
         (MyDate.getFullYear() + '-')
@@ -17,5 +11,4 @@ function calcDate(datum){
     return(MyDateString);
 
 }
-// console.log(calcDate('16.02.2021', -3));
 module.exports = calcDate;

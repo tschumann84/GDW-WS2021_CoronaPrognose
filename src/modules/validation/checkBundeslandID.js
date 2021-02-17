@@ -1,3 +1,4 @@
+// Diese Funktion prüft, ob die gegebene Bundesland-ID existiert.
 const getBundeslaender = require('../rkiapimodules/getBundeslaender');
 function checkBundeslandID(IdBundesland){
     return new Promise ((resolve, reject) =>{

@@ -1,4 +1,4 @@
-
+//Gibt die in Deutschland existierenden Bundesländer aus.
 function getBundeslaender(){
     return new Promise((resolve, reject) => {
         const https = require('https');

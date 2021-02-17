@@ -62,7 +62,6 @@ async function getPrognose(typ, date, typID) {
 
     //Array mit Daten
     let arrayDatumspaare = await getDateArray(date)
-    console.log(arrayDatumspaare);
 
     for(let i=0; i<5;i++) {
        inf[i] = await getNewZombies(typ, dateCalc(arrayDatumspaare[i].anfangsdatum), dateCalc(arrayDatumspaare[i].enddatum), typID);

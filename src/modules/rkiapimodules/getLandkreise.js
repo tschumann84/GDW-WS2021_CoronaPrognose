@@ -1,4 +1,4 @@
-
+//Gibt die in Deutschland existierenden Landkreise aus.
 function getLandkreise(){
     return new Promise((resolve, reject)=>{
     // Typ 1 = Landkreis, Typ 2 = Bundesland, Typ3 Deutschlandweit
