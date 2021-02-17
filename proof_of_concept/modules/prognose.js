@@ -50,7 +50,6 @@
 
 const dateCalc = require('./calcModules/dateCalc');
 const getNewZombies = require('./rkiapimodules/getNewZombies');
-const getPopulation = require('./rkiapimodules/getPopulation');
 const getInzidenz = require('./calcModules/getInzidenz');
 // const m = 4;
 
@@ -63,18 +62,42 @@ async function prognose(typ, date, typID) {
     const x = new Date(date);
     console.log(x);
     let j = 0;
-    let enddatum = [];
 
-    for (let i=-35;i<=0; i=(i+7)) {
-        enddatum[j] = new Date(x);
-        j++;
-    }
-    j=0;
-    for (let i=-35;i<=0; i=(i+7)) {
-        enddatum[j].setDate(x.getDate()+i);
-        j++;
+    function Datumspaar(anfangsdatum, enddatum){
+        this.anfangsdatum = anfangsdatum;
+        this.enddatum = enddatum;
     }
 
+    let arrayDatumspaare = [];
+    //initialisierung der arrays
+
+    for(let i = 0; i<=5; i++){
+        await arrayDatumspaare.push(await new Datumspaar(await new Date(x), await new Date(x)));
+        console.log("erzeugt")
+    }
+
+
+for ( let i=-42; i<=-7; i=(i+7)){
+    await subtractDays(x, i)
+        .then(date => addToArray(j, arrayDatumspaare, date))
+    j++
+}
+
+    function addToArray(j, arrayDatumspaare, date){
+        return new Promise((resolve, reject)=> {
+            arrayDatumspaare[j].anfangsdatum.setDate(date)
+            arrayDatumspaare[j].enddatum.setDate(date+6)
+            resolve(arrayDatumspaare[j])
+        })
+    }
+
+    function subtractDays(date, i){
+        return new Promise((resolve, reject)=> {
+            resolve(date.getDate()+i)
+        })
+    }
+
+    console.log(arrayDatumspaare);
     // Date.prototype.subtractDays = function (d) {
     //     this.setTime (this.getTime()-(d*24*60*60*1000));
     //     return this;
@@ -96,8 +119,7 @@ async function prognose(typ, date, typID) {
     //     await enddatum[j].setDate(X.getDate()+i);
     //     j++;
     // }
-    console.log(enddatum);
-    console.log(enddatum[0].toDateString());
+
 
     // let enddatum = [getDate(-35),
     //                 getDate(-28),
@@ -111,7 +133,7 @@ async function prognose(typ, date, typID) {
     //     console.log(getDate(i*-1)+' '+inf[i]);
     // }
     for(let i=0; i<5;i++) {
-       inf[i] = await getNewZombies(typ, dateCalc(enddatum[i]), dateCalc(enddatum[i+1]),typID);
+       inf[i] = await getNewZombies(typ, dateCalc(arrayDatumspaare[i].anfangsdatum), dateCalc(arrayDatumspaare[i].enddatum), typID);
        // let population = await getPopulation(typ, typID);
        // inz[i] = inf[i] * population / 100000;
        inz[i] = await getInzidenz(inf[i], typ, typID);
@@ -212,7 +234,7 @@ async function prognose(typ, date, typID) {
     array.push(new Back(infizierte, inzidenz, ampel))
     return(array);
 }
-prognose(1,'2021-01-01','13003')
+prognose(1,'2021-01-30','13003')
     .then(ergebnis => {console.log(ergebnis)})
 
 module.exports = prognose

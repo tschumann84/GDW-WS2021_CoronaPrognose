@@ -57,7 +57,7 @@ router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
         .then(returnchecklandkreis => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
         .then(returncheckenddatum => {
-            getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
+            getRetroNumbers(1,req.params.Startdatum, req.params.Enddatum,req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
         })
@@ -92,7 +92,7 @@ router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
         .then(returncheckbundesland => checkDatumID(req.params.Startdatum, daten))
         .then(returncheckdatum => checkDatumID(req.params.Enddatum, neuesArray))
         .then(returncheckenddatum => {
-            getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
+            getRetroNumbers(2,req.params.Startdatum, req.params.Enddatum, req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
         })
