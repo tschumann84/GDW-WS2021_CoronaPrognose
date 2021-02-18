@@ -2,7 +2,8 @@ const ST = require('stjs');
 
 function parsedSimpleIndex(array){
     return new Promise((resolve, reject)  => {
-        const parsed = ST.select({"items": array})
+        try {
+            const parsed = ST.select({"items": array})
             .transformWith({
                 "{{#each items}}": {
                     "Titel": "{{this.titel}}",
@@ -14,6 +15,9 @@ function parsedSimpleIndex(array){
             })
             .root();
         resolve(parsed);
+        }catch {
+            reject(new Error('500 Internal Server Error (parsedSimpleIndex)'));
+        }
     })
 }
 module.exports = parsedSimpleIndex;

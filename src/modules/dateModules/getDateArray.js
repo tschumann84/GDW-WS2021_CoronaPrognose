@@ -1,7 +1,6 @@
 // Gibt ein Array mit Daten aus
 
 async function getDateArray(date){
-
         const x = new Date(date);
         x.setHours(2)
         let j = 0;
@@ -30,15 +29,24 @@ async function getDateArray(date){
 
 function addToArray(j, arrayDatumspaare, date){
     return new Promise((resolve, reject)=> {
-        arrayDatumspaare[j].anfangsdatum.setDate(date)
-        arrayDatumspaare[j].enddatum.setDate(date+6)
-        resolve(arrayDatumspaare[j])
+        try{
+            arrayDatumspaare[j].anfangsdatum.setDate(date)
+            arrayDatumspaare[j].enddatum.setDate(date+6)
+            resolve(arrayDatumspaare[j])
+        } catch{
+            reject(new Error('500 Internal Server Error (addToArray)'));
+        }
     })
+
 }
 
 function subtractDays(date, i){
     return new Promise((resolve, reject)=> {
-        resolve(date.getDate()+i)
+        try{
+            resolve(date.getDate()+i)
+        } catch{
+            reject(new Error('500 Internal Server Error (subtractDays)'));
+        }
     })
 }
 

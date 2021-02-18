@@ -27,19 +27,21 @@ router.get('/',(req,res)=>{
     getRetroHome()
         .then(array => parsedSimpleIndex(array))
         .then(parsedObjects => res.send(parsedObjects))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/landkreis',(req,res)=>{
     getLandkreise()
         .then(array => parsedLandkreisIndex(array))
         .then(parsedObjects => res.send(parsedObjects))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/landkreis/:id',(req,res)=>{
     checkLandkreisID(req.params.id)
         .then(() => parsedDatenIndex(daten, `/retro/landkreis/${req.params.id}/`,'/retro/landkreis'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/landkreis/:id/:Startdatum',(req,res)=> {
@@ -48,7 +50,7 @@ router.get('/landkreis/:id/:Startdatum',(req,res)=> {
         .then(() => checkDatumID(req.params.Startdatum, daten))
         .then(() => parsedEndDatenIndex(neuesArray, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`,`/retro/landkreis/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
@@ -60,21 +62,23 @@ router.get('/landkreis/:id/:Startdatum/:Enddatum',(req,res)=> {
             getRetroNumbers(1,req.params.Startdatum, req.params.Enddatum,req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/landkreis/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/landkreis/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
+                .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
         })
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesland',(req,res)=>{
     getBundeslaender()
         .then(array => parsedBundeslandIndex(array))
         .then(parsedObjects => res.send(parsedObjects))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesland/:id',(req,res)=>{
     checkBundeslandID(req.params.id)
         .then(() => parsedDatenIndex(daten, `/retro/bundesland/${req.params.id}/`,'retro/bundesland'))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch (err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesland/:id/:Startdatum',(req,res)=> {
@@ -83,7 +87,7 @@ router.get('/bundesland/:id/:Startdatum',(req,res)=> {
         .then(() => checkDatumID(req.params.Startdatum, daten))
         .then(() => parsedEndDatenIndex(neuesArray, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`,`/retro/bundesland/${req.params.id}`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
@@ -95,13 +99,15 @@ router.get('/bundesland/:id/:Startdatum/:Enddatum',(req,res)=> {
             getRetroNumbers(2,req.params.Startdatum, req.params.Enddatum, req.params.id)
                 .then( object => parsedRetroNumbers(object, `/retro/bundesland/${req.params.id}/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesland/${req.params.id}/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
+                .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
         })
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesweit',(req,res)=>{
     parsedDatenIndex(daten, `/retro/bundesweit/`,'/retro')
         .then (parsedObjects => res.send(parsedObjects))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesweit/:Startdatum',(req,res)=> {
@@ -109,7 +115,7 @@ router.get('/bundesweit/:Startdatum',(req,res)=> {
     checkDatumID(req.params.Startdatum,daten)
         .then(() => parsedEndDatenIndex(neuesArray, `/retro/bundesweit/${req.params.Startdatum}/`,`/retro/bundesweit`))
         .then(parsedObjects => res.send(parsedObjects))
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
@@ -120,8 +126,9 @@ router.get('/bundesweit/:Startdatum/:Enddatum',(req,res)=> {
             getRetroNumbers(3,req.params.Startdatum, req.params.Enddatum, null)
                 .then( object => parsedRetroNumbers(object, `/retro/bundesweit/${req.params.Startdatum}/${req.params.Enddatum}/`,`/retro/bundesweit/${req.params.Startdatum}/`))
                 .then(parsedObjects => res.send(parsedObjects))
+                .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
         })
-        .catch(err => res.status(404).send(err.toString() + ' Ressource not found'))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 module.exports = router;

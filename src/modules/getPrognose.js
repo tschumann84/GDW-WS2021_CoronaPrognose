@@ -25,17 +25,14 @@ async function getPrognose(typ, date, typID) {
 
     if (inzidenz <= ampelWert[0]) {
         ampel = '#00ff00';
-    } else {
-        if (inzidenz <= ampelWert[1]) {
+        } else if (inzidenz <= ampelWert[1]) {
             ampel = '#ffff00';
-        } else {
-            if (inzidenz <= ampelWert[2]) {
-                ampel = '#ffa500';
-            } else {
-                ampel = '#ff0000';
-            }
-        }
+        } else if (inzidenz <= ampelWert[2]){
+            ampel = '#ffa500';
+        } else{
+            ampel = '#ff0000';
     }
+
 
     // console.log('### Infizierte: ');
     // console.log('#Wochensummen: ');

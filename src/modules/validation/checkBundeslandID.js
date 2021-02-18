@@ -4,6 +4,7 @@ function checkBundeslandID(IdBundesland){
     return new Promise ((resolve, reject) =>{
         getBundeslaender()
             .then(array => {
+
                     let res = false;
                     let loop = false;
                     for (let i = 0; i < array.length; i++) {
@@ -16,7 +17,7 @@ function checkBundeslandID(IdBundesland){
                         }
                     }
                     if (res === false && loop === true) {
-                        reject(new Error('404'));
+                        reject(new Error('404 Not found - Ressource wurde nicht gefunden (UNKNOWN_BUNDESLAND_ID)'));
                     }
                 }
             )

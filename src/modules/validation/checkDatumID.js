@@ -10,7 +10,7 @@ function checkDatumID(datum, daten){
             if((i+1) === daten.length && res===false){loop = true}
         }
         if(res === false && loop === true){
-            reject(new Error ('404'));
+            reject(new Error ('404 Not found - Ressource wurde nicht gefunden (WRONG_DATE)'));
         }
     })
 }

@@ -17,6 +17,7 @@ router.get('/',(req,res)=>{
     getHome()
         .then(home => parsedHome(home))
         .then(parsedObject =>(res.send(parsedObject)))
+        .catch (err => res.status(parseInt(err.toString().substring(7,10))).send(err.toString()))
 });
 
 module.exports = router;

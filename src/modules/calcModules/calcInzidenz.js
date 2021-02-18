@@ -2,10 +2,14 @@ const getPopulation = require('../rkiapimodules/getPopulation')
 
 function calcInzidenz(inf, typ, typID) {
     return new Promise ((resolve, reject) => {
-        getPopulation(typ, typID)
-            .then(ergebnis =>  {
-                resolve (inf / ergebnis * 100000);
-            })
+        try {
+            getPopulation(typ, typID)
+                .then(ergebnis =>  {
+                    resolve (inf / ergebnis * 100000);
+                })
+        }catch {
+            reject(new Error('500 Internal Server Error (calcInzidenz)'));
+        }
         // let inzidenz = (inf / getPopulation(typ, typID) * 100000)
         // // let inzidenz = (inf / 272022 * 100000)
         // console.log(inzidenz);
