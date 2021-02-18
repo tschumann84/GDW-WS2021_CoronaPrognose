@@ -7,8 +7,8 @@ function parsedPrognose(array, link, parent) {
                 .transformWith({
                     "{{#each items}}": {
                         "Warnung": "Bei der folgenden Ressource handelt es sich um eine selbst erstellte Prognose. Grundlage der Berechnung ist die Methode der kleinsten quadratischen Abweichung bei linearer Zeitabhängigkeit einer Größe",
-                        "Infizierte": "{{this.infizierte}}",
-                        "Inzidenz": "{{this.inzidenz}}",
+                        "Prognose Infizierte in 7 Tagen": "{{this.infizierte}}",
+                        "Prognose Inzidenz in 7 Tagen": "{{this.inzidenz}}",
                         "Ampel": "{{this.ampel}}",
                         "_links": {
                             "self": {"href": link},
