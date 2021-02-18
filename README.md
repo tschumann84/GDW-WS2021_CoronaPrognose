@@ -1,12 +1,17 @@
 ## Problemszenario
-Werner ist Außendienstmitarbeiter. Wie auch viele andere Berufstätige ist er darauf angewiesen sein Geld an ständig wechselnden Orten zu verdienen. Jedoch setzt er sich bislang immer einem unkalkuliertem Infektionsrisiko aus. Werner würde gerne wissen, wie sich die Infektionszahlen in seinem nächsten Arbeitsgebiet entwickeln werden und ob sein nächster Beschäftigungsort nicht ein zu hohes Risiko birgt.
+Timo bloggt für sein StartUp, welches Kurzreisen vermittelt. Sein Blog wird von Reiselustigen in ganz Deutschland gelesen. Aufgrund der andauernden Pandemie möchte Timo die Reiseziele seines Blogs um Informationen zur aktuellen Pandemielage erweitern. Dafür versuchte Timo die nötigen Informationen, wie beispielsweise den Inzidenzwert einer Region zu beschaffen. Er landete automatisch bei dem Angebot des Robert Koch Instituts welche alle gemeldeten Fälle in einer API zu Verfügung stellt. Jedoch liefert die API keine Kennzahlen wie beispielsweise einen Inzidenzwert sondern nur Einzelmeldungen von Coronafällen. Timo wünscht sich eine API welche ihm die Kennzahlen sowie eine Prognose zur Verfügung stellen kann. 
 
 ## Projektidee
 **Eine API die nachfolgende Informationen zur Verfügung stellt:**
-* Inzidenzentwicklung über einen bestimmten Zeitraum 
-* An-/ bzw. Abstieg der Infektionszahlen
-* Prognoseampel / potentielles Ansteckungsrisiko
+* Abfrage vergangener Inzidenzwerte und Anzahl Neuinfektionen
+* 7-Tage Prognose von Inzidenzwerten und Anzahl Neuinfektionen
+* 7-Tage Prognoseampel
+* Abfragen gegliedert nach Land-/Stadtkreisen, Bundesländern, Bundesweit und nach Zeiträumen
 
+## Stakeholder
+* Anwendungsentwickler
+* Blogger
+* Interessierte
 
 ## Weitere Dokumente
 ### Domänenmodell
@@ -15,3 +20,4 @@ Werner ist Außendienstmitarbeiter. Wie auch viele andere Berufstätige ist er d
 ### Anwendungslogik
 * [Anwendungslogik Version 1.0](https://raw.githubusercontent.com/tschumann84/GDWWS2021GeraschSalamonSchumann/main/docs/Corona%20Ampel.png?token=ARRSNQGQFUWZX7XF36N2IUC73J6SQ)
 * [Anwendungslogik Version 1.1](https://raw.githubusercontent.com/tschumann84/GDWWS2021GeraschSalamonSchumann/main/docs/Anwendungslogik/Anwendungslogik%201.1.png?token=ARRSNQFJQZWZUTJ4MVUU5L274ELYY)
+* [Anwendungslogik Version 2.0](https://github.com/tschumann84/GDWWS2021GeraschSalamonSchumann/blob/main/docs/Anwendungslogik/2021-02-18%2017_29_33-.png)
