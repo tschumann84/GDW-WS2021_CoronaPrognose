@@ -56,7 +56,7 @@ async function getPrognose(typ, date, typID) {
     array.push(new Back(Math.round(infizierte), Math.round(inzidenz), ampel))
     return(array);
 }
-getPrognose(1,'2020-12-28','05374')
-    .then(ergebnis => {console.log(ergebnis)})
+// getPrognose(1,'2020-12-28','05374')
+//     .then(ergebnis => {console.log(ergebnis)})
 
 module.exports = getPrognose
